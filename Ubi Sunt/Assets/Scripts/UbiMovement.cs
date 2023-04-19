@@ -69,7 +69,7 @@ public class UbiMovement : MonoBehaviour
                 state = State.REST;
                 firstStopping = true;
             } else {
-                body.AddForce(desired.normalized * speed - body.velocity);
+                body.AddForce(desired.normalized * (speed / 2) - body.velocity);
             }
         }
         lasth = horizontal;
