@@ -32,10 +32,8 @@ public class UbiMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-        animator.SetFloat("horizontal", horizontal);
-        animator.SetFloat("vertical", vertical);
+        horizontal = animator.GetFloat("horizontal");
+        vertical = animator.GetFloat("vertical");
     }
 
     void FixedUpdate() {
@@ -54,25 +52,55 @@ public class UbiMovement : MonoBehaviour
             } else {
                 body.AddForce(new Vector2(horizontal * speed, vertical * speed));
             }
-        } else if (state == State.STOPPING && body.velocity.magnitude < 1) {
+        } else if (state == State.STOPPING) {
             if (firstStopping) {
-            target = new Vector3(Mathf.Floor(transform.position.x) + Math.Max(0, Math.Sign(body.velocity.x)), 
-                Mathf.Floor(transform.position.y) + Math.Max(0, Math.Sign(body.velocity.y)), 
-                Mathf.Floor(transform.position.z));
+                NewTarget();
                 firstStopping = false;
             }
 
             Vector2 desired = target - transform.position;
             if (desired.magnitude < 0.01) {
-                transform.position = target;
-                body.velocity = Vector2.zero;
-                state = State.REST;
-                firstStopping = true;
+                StopMoving();
             } else {
-                body.AddForce(desired.normalized * (speed / 2) - body.velocity);
+                body.AddForce(desired.normalized * (speed / 4) - body.velocity);
             }
         }
         lasth = horizontal;
         lastv = vertical;
+    }
+
+    void StopMoving() {
+        transform.position = target;
+        body.velocity = Vector2.zero;
+        state = State.REST;
+        firstStopping = true;
+    }
+
+    void NewTarget() {
+        target = new Vector3(Mathf.Floor(transform.position.x) + Math.Max(0, Math.Sign(body.velocity.x)), 
+            Mathf.Floor(transform.position.y) + Math.Max(0, Math.Sign(body.velocity.y)), 
+            Mathf.Floor(transform.position.z));
+    }
+
+    void Here() {
+        target = new Vector3(Mathf.Round(transform.position.x), 
+            Mathf.Round(transform.position.y), 
+            Mathf.Round(transform.position.z));
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        Here();
+        StopMoving();
+    }
+
+
+     void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.blue;
+        if (state == State.STOPPING && !firstStopping) {
+            Gizmos.DrawSphere(target, 0.3f);
+        }
     }
 }
