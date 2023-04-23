@@ -8,13 +8,18 @@ public class AutoUbiControl : MonoBehaviour
 
     public Vector3 target = new Vector3(0, 0, 0);
 
+    private static int lastPriority = 0;
+
+    public int priority = 0;
+
     private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         NewTarget();
-        transform.position = target;
+        priority = lastPriority++;
+        transform.position = new Vector3(4, -7 + priority, 0);
     }
 
     void NewTarget() {
@@ -46,6 +51,18 @@ public class AutoUbiControl : MonoBehaviour
 
         if (desired.magnitude < 0.1) {
             NewTarget();
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Robot") {
+            AutoUbiControl other = col.gameObject.GetComponent<AutoUbiControl>();
+            if (priority > other.priority) {
+                Vector3 temp = target;
+                target = other.target;
+                other.target = temp;
+            }
         }
     }
 
