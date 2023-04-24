@@ -33,4 +33,8 @@ public class Pod
     public int GetWidth() {
         return storage.GetLength(0);
     }
+
+    public int GetCircumference() {
+        return storage.GetLength(1);
+    }
 }
