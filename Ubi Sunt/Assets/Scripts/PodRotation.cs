@@ -13,6 +13,8 @@ public class PodRotation : MonoBehaviour
     public TileBase floor;
     public TileBase wall;
 
+    public GameObject thing;
+
     private Transform cameraTransform;
     private float lastCameraY;
 
@@ -41,6 +43,10 @@ public class PodRotation : MonoBehaviour
 
         // Entrances
 
+        // TEMP MAKING THINGS
+        GameObject t = Instantiate(thing);
+        pod.Set(0, 0, t);
+
     }
 
     // Update is called once per frame
@@ -58,11 +64,18 @@ public class PodRotation : MonoBehaviour
                 background.SetTile(new Vector3Int(x, up, 0), floor);
                 background.SetTile(new Vector3Int(x, down, 0), null);                
             }
+
             walls.SetTile(new Vector3Int(-1, up, 0), wall);
             walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), wall);
             walls.SetTile(new Vector3Int(-1, down, 0), null);
             walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), null);
             
+            for (int x = 0; x < pod.GetWidth(); x++) {
+                GameObject thing = pod.Get(x, down);
+                if (thing != null) {
+                    thing.transform.position += new Vector3(0, pod.GetCircumference(), 0);
+                }             
+            }
         }
         if (currentCameraY < lastCameraY) {
             print("Going down!");
@@ -70,10 +83,19 @@ public class PodRotation : MonoBehaviour
                 background.SetTile(new Vector3Int(x, up, 0), null);  
                 background.SetTile(new Vector3Int(x, down, 0), floor);
             }
+
             walls.SetTile(new Vector3Int(-1, up, 0), null);
             walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), null);
             walls.SetTile(new Vector3Int(-1, down, 0), wall);
-            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);        }
+            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);  
+
+            for (int x = 0; x < pod.GetWidth(); x++) {
+                GameObject thing = pod.Get(x, down);
+                if (thing != null) {
+                    thing.transform.position -= new Vector3(0, pod.GetCircumference(), 0);
+                }             
+            }      
+        }
 
         lastCameraY = currentCameraY;
     }
