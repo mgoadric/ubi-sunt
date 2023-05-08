@@ -6,10 +6,11 @@ using UnityEngine.Tilemaps;
 public class PodRotation : MonoBehaviour
 {
 
-    private Pod myspace;
-    private Tilemap stuff;
+    private Pod pod;
+    private Tilemap background;
     private Tilemap walls;
 
+    public TileBase floor;
     public TileBase wall;
 
     private Transform cameraTransform;
@@ -18,18 +19,27 @@ public class PodRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pod = new Pod(9, 12);
+
         cameraTransform = Camera.main.transform;
         lastCameraY = Mathf.Floor(cameraTransform.position.y);
-        myspace = new Pod(9, 9, wall);
-        stuff = GetComponent<Tilemap>();
-        int w = myspace.GetWidth();
-        int c = myspace.GetCircumference();
-        for (int y = -c / 2; y < c / 2 + 1; y++) {
+        background = transform.Find("Background").gameObject.GetComponent<Tilemap>();
+        walls = transform.Find("Walls").gameObject.GetComponent<Tilemap>();
+        int w = pod.GetWidth();
+        int c = pod.GetCircumference();
+        for (int y = 0; y < c; y++) {
             for (int x = 0; x < w; x++) {
-                stuff.SetTile(new Vector3Int(x - (w / 2) - 1, y - 1, 0), 
-                             myspace.GetSprite(x, y));
+                background.SetTile(new Vector3Int(x, y, 0), floor);
             }
         }
+
+        // Walls
+        for (int y = 0; y < c; y++) {
+            walls.SetTile(new Vector3Int(-1, y, 0), wall);
+            walls.SetTile(new Vector3Int(w, y, 0), wall);
+        }
+
+        // Entrances
 
     }
 
@@ -38,26 +48,33 @@ public class PodRotation : MonoBehaviour
     {
         
         float currentCameraY = Mathf.Floor(cameraTransform.position.y);
-        int c = myspace.GetCircumference();
+        int c = pod.GetCircumference();
+        int up = (int)lastCameraY + c / 2;
+        int down = (int)lastCameraY - c / 2;
 
         if (currentCameraY > lastCameraY) {
             print("Going up!");
-            for (int x = 0; x < myspace.GetWidth(); x++) {
-                stuff.SetTile(new Vector3Int(x - (myspace.GetWidth() / 2) - 1, (int)lastCameraY + c / 2, 0), 
-                             myspace.GetSprite(x, (int)lastCameraY + c / 2));
-                stuff.SetTile(new Vector3Int(x - (myspace.GetWidth() / 2) - 1, (int)lastCameraY - (c / 2 + 1), 0), 
-                             null);                
+            for (int x = 0; x < pod.GetWidth(); x++) {
+                background.SetTile(new Vector3Int(x, up, 0), floor);
+                background.SetTile(new Vector3Int(x, down, 0), null);                
             }
+            walls.SetTile(new Vector3Int(-1, up, 0), wall);
+            walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), wall);
+            walls.SetTile(new Vector3Int(-1, down, 0), null);
+            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), null);
+            
         }
         if (currentCameraY < lastCameraY) {
             print("Going down!");
-            for (int x = 0; x < myspace.GetWidth(); x++) {
-                stuff.SetTile(new Vector3Int(x - (myspace.GetWidth() / 2) - 1, (int)lastCameraY - c / 2 - 1, 0), 
-                               myspace.GetSprite(x, (int)lastCameraY + c / 2 - 1));
-                stuff.SetTile(new Vector3Int(x - (myspace.GetWidth() / 2) - 1, (int)lastCameraY + c / 2, 0), 
-                             null);  
+            for (int x = 0; x < pod.GetWidth(); x++) {
+                background.SetTile(new Vector3Int(x, up, 0), null);  
+                background.SetTile(new Vector3Int(x, down, 0), floor);
             }
-        }
+            walls.SetTile(new Vector3Int(-1, up, 0), null);
+            walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), null);
+            walls.SetTile(new Vector3Int(-1, down, 0), wall);
+            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);        }
+
         lastCameraY = currentCameraY;
     }
 }

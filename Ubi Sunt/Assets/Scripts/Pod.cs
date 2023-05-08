@@ -7,23 +7,38 @@ using System;
 public class Pod
 {
 
-    public TileBase[,] storage;
+    public GameObject[,] storage;
 
-    public TileBase background;
-
-    public Pod(int width, int circumference, TileBase defaultSprite) 
+    public Pod(int width, int circumference) 
     {
-        storage = new TileBase[width, circumference];
-        background = defaultSprite;
+        storage = new GameObject[width, circumference];
     }
 
-    public TileBase GetSprite(int x, int y) 
-    {
-        int cy = RealMod(y, storage.GetLength(1));
+    public bool Set(int x, int y, GameObject go) {
+        int cy = RealMod(y, GetCircumference());
+        if (storage[x, cy] == null) {
+            storage[x, cy] = go;
+            return true;
+        }
+        return false;
+    }
+
+    public GameObject Get(int x, int y) {
+        int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] != null) {
             return storage[x, cy];
         }
-        return background;
+        return null;
+    }
+
+    public GameObject Remove(int x, int y) {
+        int cy = RealMod(y, GetCircumference());
+        if (storage[x, cy] != null) {
+            GameObject go = storage[x, cy];
+            storage[x, cy] = null;
+            return go;
+        }
+        return null;
     }
 
     private int RealMod(int x, int m) {
