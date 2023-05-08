@@ -6,14 +6,12 @@ using UnityEngine.Tilemaps;
 public class PodRotation : MonoBehaviour
 {
 
-    private Pod pod;
+    public Pod pod;
     private Tilemap background;
     private Tilemap walls;
 
     public TileBase floor;
     public TileBase wall;
-
-    public GameObject thing;
 
     private Transform cameraTransform;
     private float lastCameraY;
@@ -21,7 +19,6 @@ public class PodRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pod = new Pod(9, 12);
 
         cameraTransform = Camera.main.transform;
         lastCameraY = Mathf.Floor(cameraTransform.position.y);
@@ -42,10 +39,6 @@ public class PodRotation : MonoBehaviour
         }
 
         // Entrances
-
-        // TEMP MAKING THINGS
-        GameObject t = Instantiate(thing);
-        pod.Set(0, 0, t);
 
     }
 

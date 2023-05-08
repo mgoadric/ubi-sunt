@@ -8,7 +8,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance {get; private set;}
 
+    private Pod pod;
 
+    public GameObject podRotationPrefab;
+
+    public GameObject thing;
 
 
     void Awake() {
@@ -22,6 +26,15 @@ public class GameManager : MonoBehaviour
 
 
 
+    }
+
+    void Start() {
+        pod = new Pod(9, 12);
+        GameObject t = Instantiate(thing);
+        pod.Set(0, 0, t);
+
+        GameObject prf = Instantiate(podRotationPrefab);
+        prf.GetComponent<PodRotation>().pod = pod;
     }
 
     // Update is called once per frame
