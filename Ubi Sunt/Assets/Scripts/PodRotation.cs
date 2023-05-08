@@ -24,6 +24,11 @@ public class PodRotation : MonoBehaviour
         lastCameraY = Mathf.Floor(cameraTransform.position.y);
         background = transform.Find("Background").gameObject.GetComponent<Tilemap>();
         walls = transform.Find("Walls").gameObject.GetComponent<Tilemap>();
+        
+    }
+
+    public void Setup(Pod pod) {
+        this.pod = pod;
         int w = pod.GetWidth();
         int c = pod.GetCircumference();
         for (int y = 0; y < c; y++) {
@@ -46,50 +51,54 @@ public class PodRotation : MonoBehaviour
     void Update()
     {
         
-        float currentCameraY = Mathf.Floor(cameraTransform.position.y);
-        int c = pod.GetCircumference();
-        int up = (int)lastCameraY + c / 2;
-        int down = (int)lastCameraY - c / 2;
+        if (pod != null) {
+            float currentCameraY = Mathf.Floor(cameraTransform.position.y);
+            int c = pod.GetCircumference();
+            int up = (int)lastCameraY + c / 2;
+            int down = (int)lastCameraY - c / 2;
 
-        if (currentCameraY > lastCameraY) {
-            print("Going up!");
-            for (int x = 0; x < pod.GetWidth(); x++) {
-                background.SetTile(new Vector3Int(x, up, 0), floor);
-                background.SetTile(new Vector3Int(x, down, 0), null);                
+            if (currentCameraY > lastCameraY) {
+                up += 1;
+                down += 1;
+                print("Going up!");
+                for (int x = 0; x < pod.GetWidth(); x++) {
+                    background.SetTile(new Vector3Int(x, up, 0), floor);
+                    background.SetTile(new Vector3Int(x, down, 0), null);                
+                }
+
+                walls.SetTile(new Vector3Int(-1, up, 0), wall);
+                walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), wall);
+                walls.SetTile(new Vector3Int(-1, down, 0), null);
+                walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), null);
+                
+                for (int x = 0; x < pod.GetWidth(); x++) {
+                    GameObject thing = pod.Get(x, down);
+                    if (thing != null) {
+                        thing.transform.position += new Vector3(0, pod.GetCircumference(), 0);
+                    }             
+                }
+            }
+            if (currentCameraY < lastCameraY) {
+                print("Going down!");
+                for (int x = 0; x < pod.GetWidth(); x++) {
+                    background.SetTile(new Vector3Int(x, up, 0), null);  
+                    background.SetTile(new Vector3Int(x, down, 0), floor);
+                }
+
+                walls.SetTile(new Vector3Int(-1, up, 0), null);
+                walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), null);
+                walls.SetTile(new Vector3Int(-1, down, 0), wall);
+                walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);  
+
+                for (int x = 0; x < pod.GetWidth(); x++) {
+                    GameObject thing = pod.Get(x, down);
+                    if (thing != null) {
+                        thing.transform.position -= new Vector3(0, pod.GetCircumference(), 0);
+                    }             
+                }      
             }
 
-            walls.SetTile(new Vector3Int(-1, up, 0), wall);
-            walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), wall);
-            walls.SetTile(new Vector3Int(-1, down, 0), null);
-            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), null);
-            
-            for (int x = 0; x < pod.GetWidth(); x++) {
-                GameObject thing = pod.Get(x, down);
-                if (thing != null) {
-                    thing.transform.position += new Vector3(0, pod.GetCircumference(), 0);
-                }             
-            }
+            lastCameraY = currentCameraY;
         }
-        if (currentCameraY < lastCameraY) {
-            print("Going down!");
-            for (int x = 0; x < pod.GetWidth(); x++) {
-                background.SetTile(new Vector3Int(x, up, 0), null);  
-                background.SetTile(new Vector3Int(x, down, 0), floor);
-            }
-
-            walls.SetTile(new Vector3Int(-1, up, 0), null);
-            walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), null);
-            walls.SetTile(new Vector3Int(-1, down, 0), wall);
-            walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);  
-
-            for (int x = 0; x < pod.GetWidth(); x++) {
-                GameObject thing = pod.Get(x, down);
-                if (thing != null) {
-                    thing.transform.position -= new Vector3(0, pod.GetCircumference(), 0);
-                }             
-            }      
-        }
-
-        lastCameraY = currentCameraY;
     }
 }

@@ -1,0 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UbiWorking : MonoBehaviour
+{
+
+    private UbiMovement movement;
+
+    private Pod pod;
+
+    private Stack<GameObject> storage;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        movement = GetComponent<UbiMovement>();
+        storage = new Stack<GameObject>();
+    }
+
+    public void SetPod(Pod pod) {
+        this.pod = pod;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (pod != null && movement.state == UbiMovement.State.REST) {
+            if (Input.GetKeyDown(KeyCode.Q)) {
+                // Drop
+                if (storage.Count > 0) {
+                    GameObject go = storage.Pop();
+                    go.transform.parent = null;
+                    pod.Set((int)transform.position.x, (int)transform.position.y, go);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.E)) {
+                // Pick up
+                print("Trying to pick up");
+                GameObject go = pod.Remove((int)transform.position.x,
+                (int)transform.position.y);
+                if (go != null) {
+                    storage.Push(go);
+                    go.transform.parent = gameObject.transform;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.R)) {
+
+            }
+        }        
+    }
+}

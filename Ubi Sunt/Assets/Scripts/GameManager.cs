@@ -10,9 +10,13 @@ public class GameManager : MonoBehaviour
 
     private Pod pod;
 
-    public GameObject podRotationPrefab;
+    public GameObject podRotation;
 
-    public GameObject thing;
+    public GameObject soil;
+
+    public GameObject growLight;
+
+    public GameObject ubi;
 
 
     void Awake() {
@@ -23,18 +27,20 @@ public class GameManager : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
-
-
-
     }
 
     void Start() {
-        pod = new Pod(9, 12);
-        GameObject t = Instantiate(thing);
-        pod.Set(0, 0, t);
+        pod = new Pod(9, 8);
 
-        GameObject prf = Instantiate(podRotationPrefab);
-        prf.GetComponent<PodRotation>().pod = pod;
+        GameObject t = Instantiate(soil, new Vector3(0, 4, 0), Quaternion.identity);
+        pod.Set(0, 4, t);
+
+        GameObject li = Instantiate(growLight, new Vector3(0, 0, 0), Quaternion.identity);
+        pod.Set(0, 0, li);
+
+        ubi.GetComponent<UbiWorking>().SetPod(pod);
+
+        podRotation.GetComponent<PodRotation>().Setup(pod);
     }
 
     // Update is called once per frame
