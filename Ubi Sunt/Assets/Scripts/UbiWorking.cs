@@ -25,27 +25,31 @@ public class UbiWorking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pod != null && movement.state == UbiMovement.State.REST) {
+        if (pod != null && (movement.state == UbiMovement.State.REST ||
+                            movement.state == UbiMovement.State.WORKING)) {
             if (Input.GetKeyDown(KeyCode.Q)) {
                 // Drop
                 if (storage.Count > 0) {
                     GameObject go = storage.Pop();
-                    go.transform.parent = null;
-                    pod.Set((int)transform.position.x, (int)transform.position.y, go);
+                    bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
+                    if (placed) {
+                        go.transform.parent = null;
+                    } else {
+                        storage.Push(go);
+                    }
                 }
             }
             else if (Input.GetKeyDown(KeyCode.E)) {
                 // Pick up
                 print("Trying to pick up");
-                GameObject go = pod.Remove((int)transform.position.x,
-                (int)transform.position.y);
+                GameObject go = pod.Remove((int)transform.position.x, (int)transform.position.y);
                 if (go != null) {
                     storage.Push(go);
                     go.transform.parent = gameObject.transform;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.R)) {
-
+                // Interact (toggle?)
             }
         }        
     }
