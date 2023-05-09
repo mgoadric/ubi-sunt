@@ -353,6 +353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   podRotation: {fileID: 6092699108965747824}
   soil: {fileID: 2119882334177536129, guid: d6ebde991ca02463c911ad00eb72fb71, type: 3}
+  seed: {fileID: 2091411836345335967, guid: bb9e3accf32c04743ad0bc2d1fc0d207, type: 3}
   growLight: {fileID: 998012703861400823, guid: d43f17b2fd97948c7a6fd5fce22dd5bd, type: 3}
   heater: {fileID: 7233118334256466397, guid: 7f17307fb9a6f448a99e58e7a228a531, type: 3}
   acunit: {fileID: 1753725205239317431, guid: acfdbf58ad9c44fd9b1f7fc61d8012ed, type: 3}

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject soil;
 
+    public GameObject seed;
+
     public GameObject growLight;
 
     public GameObject heater;
@@ -40,6 +42,9 @@ public class GameManager : MonoBehaviour
         MakeThing(soil, 0, 4);
         MakeThing(soil, 0, 5);
         MakeThing(soil, 0, 6);
+        MakeThing(seed, 4, 2);
+        MakeThing(seed, 4, 1);
+
         MakeThing(growLight, 1, 3);
         MakeThing(growLight, 5, 2);
         MakeThing(growLight, 3, 3);        

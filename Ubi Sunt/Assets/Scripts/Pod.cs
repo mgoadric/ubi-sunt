@@ -19,6 +19,13 @@ public class Pod
         if (storage[x, cy] == null) {
             storage[x, cy] = go;
             return true;
+        } else {
+            Debug.Log("Seed into soil??");
+            Debug.Log(storage[x, cy].tag + ", " + go.tag);
+            if (storage[x, cy].tag == "Soil" && go.tag == "Seed") {
+                Debug.Log("It worked!");
+                return storage[x, cy].GetComponent<Plot>().Plant(go);
+            }
         }
         return false;
     }
@@ -51,5 +58,19 @@ public class Pod
 
     public int GetCircumference() {
         return storage.GetLength(1);
+    }
+
+    public float AmbientTemp(int x, int y) {
+        float temp = 0.0f;
+        int cy = RealMod(y, GetCircumference());
+        
+        return temp;
+    }
+
+    public float AmbientLight(int x, int y) {
+        float shine = 0.0f;
+        int cy = RealMod(y, GetCircumference());
+
+        return shine;
     }
 }
