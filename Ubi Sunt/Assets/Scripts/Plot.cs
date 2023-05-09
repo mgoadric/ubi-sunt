@@ -43,8 +43,10 @@ public class Plot : MonoBehaviour
     public GameObject Harvest() {
         if (plant != null) {
             GameObject p = plant;
-            plant = null;
-            return p;
+            if (p.GetComponent<Plant>().Harvestable()) {
+                plant = null;
+                return p;
+            }
         }
         return null;
     }

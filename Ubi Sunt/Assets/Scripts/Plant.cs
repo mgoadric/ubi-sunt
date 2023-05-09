@@ -34,6 +34,10 @@ public class Plant : MonoBehaviour
         spriteRenderer.sprite = growth[stage];
     }
 
+    public bool Harvestable() {
+        return stage == growth.Length - 1;
+    }
+
     IEnumerator Grow() {
         print("Growing??");
         while (stage < growth.Length - 1) {

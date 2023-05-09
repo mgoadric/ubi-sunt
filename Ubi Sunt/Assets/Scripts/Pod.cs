@@ -41,6 +41,12 @@ public class Pod
     public GameObject Remove(int x, int y) {
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] != null) {
+            if (storage[x, cy].tag == "Soil") {
+                GameObject p = storage[x, cy].GetComponent<Plot>().Harvest();
+                if (p != null) {
+                    return p;
+                }
+            }
             GameObject go = storage[x, cy];
             storage[x, cy] = null;
             return go;
@@ -48,7 +54,7 @@ public class Pod
         return null;
     }
 
-    private int RealMod(int x, int m) {
+    public int RealMod(int x, int m) {
         return (x%m + m)%m;
     }
 

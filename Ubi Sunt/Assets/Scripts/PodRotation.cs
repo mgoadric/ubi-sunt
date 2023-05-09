@@ -36,11 +36,17 @@ public class PodRotation : MonoBehaviour
                 background.SetTile(new Vector3Int(x, y, 0), tracks);
             }
         }
+        for (int x = 0; x < w / 2; x++) {  
+            background.SetTile(new Vector3Int(-1 * x - 1, 0, 0), tracks);
+            background.SetTile(new Vector3Int(w + x, 0, 0), tracks);
+        }
 
         // Walls
         for (int y = 1; y < c; y++) {
-            walls.SetTile(new Vector3Int(-1, y, 0), wall);
-            walls.SetTile(new Vector3Int(w, y, 0), wall);
+            for (int x = 0; x < w / 2; x++) {
+                walls.SetTile(new Vector3Int(-1 * x - 1, y, 0), wall);
+                walls.SetTile(new Vector3Int(w + x, y, 0), wall);
+            }
         }
 
         // Entrances
@@ -54,6 +60,7 @@ public class PodRotation : MonoBehaviour
         if (pod != null) {
             float currentCameraY = Mathf.Floor(cameraTransform.position.y);
             int c = pod.GetCircumference();
+            int w = pod.GetWidth();
             int up = (int)lastCameraY + c / 2;
             int down = (int)lastCameraY - c / 2;
 
@@ -65,12 +72,23 @@ public class PodRotation : MonoBehaviour
                     background.SetTile(new Vector3Int(x, up, 0), tracks);
                     background.SetTile(new Vector3Int(x, down, 0), null);                
                 }
-
-                walls.SetTile(new Vector3Int(-1, up, 0), wall);
-                walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), wall);
-                walls.SetTile(new Vector3Int(-1, down, 0), null);
-                walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), null);
                 
+                if (pod.RealMod(up, c) != 0) {
+                    for (int x = 0; x < w / 2; x++) {  
+                        walls.SetTile(new Vector3Int(-1 * x - 1, up, 0), wall);
+                        walls.SetTile(new Vector3Int(w + x, up, 0), wall);
+                        walls.SetTile(new Vector3Int(-1 * x - 1, down, 0), null);
+                        walls.SetTile(new Vector3Int(w + x, down, 0), null);
+                    }
+                } else {
+                    for (int x = 0; x < w / 2; x++) {  
+                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                        background.SetTile(new Vector3Int(w + x, up, 0), tracks);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                        background.SetTile(new Vector3Int(-1 * x - 1, down, 0), null);
+                        background.SetTile(new Vector3Int(w + x, down, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                    } 
+                }
+
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     GameObject thing = pod.Get(x, down);
                     if (thing != null) {
@@ -85,11 +103,21 @@ public class PodRotation : MonoBehaviour
                     background.SetTile(new Vector3Int(x, down, 0), tracks);
                 }
 
-                walls.SetTile(new Vector3Int(-1, up, 0), null);
-                walls.SetTile(new Vector3Int(pod.GetWidth(), up, 0), null);
-                walls.SetTile(new Vector3Int(-1, down, 0), wall);
-                walls.SetTile(new Vector3Int(pod.GetWidth(), down, 0), wall);  
-
+                if (pod.RealMod(down, c) != 0) {
+                    for (int x = 0; x < w / 2; x++) {  
+                        walls.SetTile(new Vector3Int(-1 * x - 1, down, 0), wall);
+                        walls.SetTile(new Vector3Int(w + x, down, 0), wall);
+                        walls.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
+                        walls.SetTile(new Vector3Int(w + x, up, 0), null);
+                    }
+                } else {
+                    for (int x = 0; x < w / 2; x++) {  
+                        background.SetTile(new Vector3Int(-1 * x - 1, down, 0), tracks);
+                        background.SetTile(new Vector3Int(w + x, down, 0), tracks);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
+                        background.SetTile(new Vector3Int(w + x, up, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                    } 
+                }
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     GameObject thing = pod.Get(x, down);
                     if (thing != null) {
