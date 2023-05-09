@@ -55,7 +55,7 @@ public class UbiWorking : MonoBehaviour
         if (go != null) {
             storage.Push(go);
             go.transform.parent = gameObject.transform;
-            go.transform.localScale *= 1.1f;
+            go.transform.localScale = Vector3.one * 1.1f;
             go.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
         }
     }
