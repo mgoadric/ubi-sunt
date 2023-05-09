@@ -10,7 +10,7 @@ public class PodRotation : MonoBehaviour
     private Tilemap background;
     private Tilemap walls;
 
-    public TileBase floor;
+    public TileBase tracks;
     public TileBase wall;
 
     private Transform cameraTransform;
@@ -20,25 +20,25 @@ public class PodRotation : MonoBehaviour
     void Start()
     {
 
+    }
+
+    public void Setup(Pod pod) {
         cameraTransform = Camera.main.transform;
         lastCameraY = Mathf.Floor(cameraTransform.position.y);
         background = transform.Find("Background").gameObject.GetComponent<Tilemap>();
         walls = transform.Find("Walls").gameObject.GetComponent<Tilemap>();
         
-    }
-
-    public void Setup(Pod pod) {
         this.pod = pod;
         int w = pod.GetWidth();
         int c = pod.GetCircumference();
         for (int y = 0; y < c; y++) {
-            for (int x = 0; x < w; x++) {
-                background.SetTile(new Vector3Int(x, y, 0), floor);
+            for (int x = 0; x < w; x++) {  
+                background.SetTile(new Vector3Int(x, y, 0), tracks);
             }
         }
 
         // Walls
-        for (int y = 0; y < c; y++) {
+        for (int y = 1; y < c; y++) {
             walls.SetTile(new Vector3Int(-1, y, 0), wall);
             walls.SetTile(new Vector3Int(w, y, 0), wall);
         }
@@ -62,7 +62,7 @@ public class PodRotation : MonoBehaviour
                 down += 1;
                 print("Going up!");
                 for (int x = 0; x < pod.GetWidth(); x++) {
-                    background.SetTile(new Vector3Int(x, up, 0), floor);
+                    background.SetTile(new Vector3Int(x, up, 0), tracks);
                     background.SetTile(new Vector3Int(x, down, 0), null);                
                 }
 
@@ -82,7 +82,7 @@ public class PodRotation : MonoBehaviour
                 print("Going down!");
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     background.SetTile(new Vector3Int(x, up, 0), null);  
-                    background.SetTile(new Vector3Int(x, down, 0), floor);
+                    background.SetTile(new Vector3Int(x, down, 0), tracks);
                 }
 
                 walls.SetTile(new Vector3Int(-1, up, 0), null);

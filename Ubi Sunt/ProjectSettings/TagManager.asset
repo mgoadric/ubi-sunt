@@ -39,6 +39,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: ShipContainers
+    uniqueID: 3674174233
+    locked: 0
+  - name: Walls
+    uniqueID: 925299169
+    locked: 0
+  - name: Tracks
+    uniqueID: 1653606949
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

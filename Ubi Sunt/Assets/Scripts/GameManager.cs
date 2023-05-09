@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject growLight;
 
+    public GameObject heater;
+
+    public GameObject acunit;
+
     public GameObject ubi;
 
 
@@ -23,6 +27,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(ubi);
  
         } else {
             Destroy(gameObject);
@@ -32,27 +37,23 @@ public class GameManager : MonoBehaviour
     void Start() {
         pod = new Pod(9, 8);
 
-        GameObject t = Instantiate(soil, new Vector3(0, 4, 0), Quaternion.identity);
-        pod.Set(0, 4, t);
+        MakeThing(soil, 0, 4);
+        MakeThing(soil, 0, 5);
+        MakeThing(soil, 0, 6);
+        MakeThing(growLight, 1, 3);
+        MakeThing(growLight, 5, 2);
+        MakeThing(growLight, 3, 3);        
+        MakeThing(acunit, 3, 4);
+        MakeThing(heater, 5, 5);
 
-        t = Instantiate(soil, new Vector3(1, 4, 0), Quaternion.identity);
-        pod.Set(1, 4, t);
-
-        t = Instantiate(soil, new Vector3(2, 4, 0), Quaternion.identity);
-        pod.Set(2, 4, t);
-
-        GameObject li = Instantiate(growLight, new Vector3(0, 0, 0), Quaternion.identity);
-        pod.Set(0, 0, li);
-
-        li = Instantiate(growLight, new Vector3(5, 2, 0), Quaternion.identity);
-        pod.Set(5, 2, li);
-
-
-        li = Instantiate(growLight, new Vector3(4, 1, 0), Quaternion.identity);
-        pod.Set(4, 1, li);
         ubi.GetComponent<UbiWorking>().SetPod(pod);
 
         podRotation.GetComponent<PodRotation>().Setup(pod);
+    }
+
+    void MakeThing(GameObject thing, int x, int y) {
+        GameObject t = Instantiate(thing, new Vector3(x, y, 0), Quaternion.identity);
+        pod.Set(x, y, t);
     }
 
     // Update is called once per frame

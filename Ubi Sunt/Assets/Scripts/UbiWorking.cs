@@ -34,6 +34,7 @@ public class UbiWorking : MonoBehaviour
                     bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
                     if (placed) {
                         go.transform.parent = null;
+                        go.transform.localScale = Vector3.one;
                     } else {
                         storage.Push(go);
                     }
@@ -46,6 +47,7 @@ public class UbiWorking : MonoBehaviour
                 if (go != null) {
                     storage.Push(go);
                     go.transform.parent = gameObject.transform;
+                    go.transform.localScale *= 1.1f;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.R)) {
