@@ -18,13 +18,20 @@ public class Pod
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] == null) {
             storage[x, cy] = go;
+            go.transform.parent = null;
+            go.transform.localScale = Vector3.one;
+            go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
             return true;
         } else {
             Debug.Log("Seed into soil??");
             Debug.Log(storage[x, cy].tag + ", " + go.tag);
             if (storage[x, cy].tag == "Soil" && go.tag == "Seed") {
                 Debug.Log("It worked!");
-                return storage[x, cy].GetComponent<Plot>().Plant(go);
+                if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
+                    go.transform.localScale = Vector3.one;
+                    go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                return true;
+                }
             }
         }
         return false;

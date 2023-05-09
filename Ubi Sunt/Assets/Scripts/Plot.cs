@@ -35,6 +35,7 @@ public class Plot : MonoBehaviour
         if (this.plant == null) {
             this.plant = plant;
             plant.GetComponent<Plant>().SetPlot(this);
+            plant.transform.parent = this.transform;
             return true;
         }
         return false;

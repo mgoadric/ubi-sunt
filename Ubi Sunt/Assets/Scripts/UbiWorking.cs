@@ -43,11 +43,7 @@ public class UbiWorking : MonoBehaviour
         if (storage.Count > 0) {
             GameObject go = storage.Pop();
             bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
-            if (placed) {
-                go.transform.parent = null;
-                go.transform.localScale = Vector3.one;
-                go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
-            } else {
+            if (!placed) {
                 storage.Push(go);
             }
         }
