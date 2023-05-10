@@ -38,7 +38,7 @@ public class AutoUbiControl : MonoBehaviour
     void Update()
     {   
         if (target != null) {
-        Vector3 desired = target.transform.position - transform.position;
+            Vector3 desired = target.transform.position - transform.position;
 
             if (desired.x > 0.99) {
                 animator.SetFloat("horizontal", 1);

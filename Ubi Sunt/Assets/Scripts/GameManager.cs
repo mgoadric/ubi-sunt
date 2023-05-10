@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject ubi;
 
     public GameObject bot;
-    
+
     public GameObject curtain;
     private bool raiseLower = false;
 
@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(ubi.transform.position.x,
                                                      ubi.transform.position.y,
                                                      Camera.main.transform.position.z);
+
+        pod.AddBot(bot);
 
         podRotation = GameObject.FindWithTag("PodTiles");
         podRotation.GetComponent<PodRotation>().Setup(pod);

@@ -24,6 +24,16 @@ public class Pod
         bots.Add(bot);
     }
 
+    public void BotLocCheck(int miny, int maxy) {
+        foreach (GameObject bot in bots) {
+            if (bot.transform.position.y < miny) {
+                bot.transform.position += new Vector3(0, GetCircumference(), 0);
+            } else if (bot.transform.position.y > maxy) {
+                bot.transform.position -= new Vector3(0, GetCircumference(), 0);
+            }
+        }
+    }
+
     public bool Set(int x, int y, GameObject go) {
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] == null) {

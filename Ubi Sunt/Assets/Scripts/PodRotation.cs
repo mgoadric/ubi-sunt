@@ -23,6 +23,9 @@ public class PodRotation : MonoBehaviour
     private int c;
     private int w;
 
+    public int miny;
+    public int maxy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +41,9 @@ public class PodRotation : MonoBehaviour
         this.pod = pod;
         w = pod.GetWidth();
         c = pod.GetCircumference();
+        miny = 0;
+        maxy = c - 1;
+
         for (int y = 0; y < c; y++) {
             for (int x = 0; x < w; x++) {  
                 background.SetTile(new Vector3Int(x, y, 0), tracks);
@@ -73,12 +79,25 @@ public class PodRotation : MonoBehaviour
             float currentCameraY = Mathf.Floor(cameraTransform.position.y);
             int up = (int)lastCameraY + c / 2;
             int down = (int)lastCameraY - c / 2;
-
-            //bool moving = false;
+            Vector3 shift = new Vector3(0, c, 0);
+            bool moving = false;
             if (currentCameraY > lastCameraY) {
                 up += 1;
                 down += 1;
                 print("Going up!");
+                miny++;
+                maxy++;
+                moving = true;
+            } else if (currentCameraY < lastCameraY) {
+                int temp = up;
+                up = down;
+                down = temp;
+                shift *= -1;
+                miny--;
+                maxy--;
+                moving = true;
+            }
+            if (moving) {
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     background.SetTile(new Vector3Int(x, up, 0), tracks);
                     background.SetTile(new Vector3Int(x, down, 0), null);                
@@ -98,48 +117,18 @@ public class PodRotation : MonoBehaviour
                         background.SetTile(new Vector3Int(-1 * x - 1, down, 0), null);
                         background.SetTile(new Vector3Int(w + x, down, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
                     } 
-                    leftExit.transform.position += new Vector3(0, c, 0);
-                    rightExit.transform.position += new Vector3(0, c, 0);
+                    leftExit.transform.position += shift;
+                    rightExit.transform.position += shift;
                 }
 
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     GameObject thing = pod.Get(x, down);
                     if (thing != null) {
-                        thing.transform.position += new Vector3(0, c, 0);
+                        thing.transform.position += shift;
                     }             
                 }
             }
-            if (currentCameraY < lastCameraY) {
-                print("Going down!");
-                for (int x = 0; x < pod.GetWidth(); x++) {
-                    background.SetTile(new Vector3Int(x, up, 0), null);  
-                    background.SetTile(new Vector3Int(x, down, 0), tracks);
-                }
-
-                if (pod.RealMod(down, c) != c / 2 - 1) {
-                    for (int x = 0; x < w; x++) {  
-                        walls.SetTile(new Vector3Int(-1 * x - 1, down, 0), wall);
-                        walls.SetTile(new Vector3Int(w + x, down, 0), wall);
-                        walls.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
-                        walls.SetTile(new Vector3Int(w + x, up, 0), null);
-                    }
-                } else {
-                    for (int x = 0; x < w; x++) {  
-                        background.SetTile(new Vector3Int(-1 * x - 1, down, 0), tracks);
-                        background.SetTile(new Vector3Int(w + x, down, 0), tracks);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
-                        background.SetTile(new Vector3Int(w + x, up, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
-                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
-                    } 
-                    leftExit.transform.position -= new Vector3(0, c, 0);
-                    rightExit.transform.position -= new Vector3(0, c, 0);
-                }
-                for (int x = 0; x < pod.GetWidth(); x++) {
-                    GameObject thing = pod.Get(x, down);
-                    if (thing != null) {
-                        thing.transform.position -= new Vector3(0, c, 0);
-                    }             
-                }      
-            }
+            pod.BotLocCheck(miny, maxy);
 
             lastCameraY = currentCameraY;
         }
