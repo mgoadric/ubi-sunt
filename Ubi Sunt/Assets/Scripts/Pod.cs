@@ -17,6 +17,8 @@ public class Pod
     public Pod(int width, int circumference) 
     {
         storage = new GameObject[width, circumference];
+        temperature = new float[width, circumference];
+        lighting = new float[width, circumference];
         bots = new List<GameObject>();
     }
 
@@ -37,7 +39,15 @@ public class Pod
     public bool Set(int x, int y, GameObject go) {
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] == null) {
-            
+            if (go.tag == "Heater") {
+                ChangeAmbient(x, cy, 1, 1, temperature);
+            }
+            if (go.tag == "ACUnit") {
+                ChangeAmbient(x, cy, 1, -1, temperature);
+            }
+            if (go.tag == "GrowLight") {
+                ChangeAmbient(x, cy, 1, 1, lighting);
+            }            
             storage[x, cy] = go;
             go.transform.parent = null;
             go.transform.localScale = Vector3.one;
@@ -75,6 +85,15 @@ public class Pod
                     return p;
                 }
             }
+            else if (storage[x, cy].tag == "Heater") {
+                ChangeAmbient(x, cy, 1, -1, temperature);
+            }
+            else if (storage[x, cy].tag == "GrowLight") {
+                ChangeAmbient(x, cy, 1, -1, lighting);
+            }   
+            else if (storage[x, cy].tag == "ACUnit") {
+                ChangeAmbient(x, cy, 1, 1, temperature);
+            }   
             GameObject go = storage[x, cy];
             storage[x, cy] = null;
             return go;
@@ -94,15 +113,24 @@ public class Pod
         return storage.GetLength(1);
     }
 
+    public void ChangeAmbient(int x, int y, int strength, int dir, float[, ] ambient) {
+        for (int hx = -strength; hx < strength + 1; hx++) {
+            for (int hy = -strength; hy < strength + 1; hy++) {
+                if (x + hx >= 0 && x + hx < GetWidth()) {
+                    float change = dir * Mathf.Max(0, (strength + 0.5f) - (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude);
+                    ambient[hx + x, RealMod(hy + y, GetCircumference())] += change;
+                }
+            }
+        }
+    }
+
     public float AmbientTemp(int x, int y) {
         int cy = RealMod(y, GetCircumference());
-        
         return temperature[x, cy];
     }
 
     public float AmbientLight(int x, int y) {
         int cy = RealMod(y, GetCircumference());
-
         return lighting[x, cy];
     }
 }

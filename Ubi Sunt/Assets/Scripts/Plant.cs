@@ -11,9 +11,15 @@ public class Plant : MonoBehaviour
 
     public float waterRequirements;
 
+    public float waterThreshold;
+
     public float lightRequirements;
 
+    public float lightThreshold;
+
     public float tempRequirements;
+
+    public float tempThreshold;
 
     public int stage;
 
@@ -25,13 +31,13 @@ public class Plant : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = growth[stage];
         stage = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        spriteRenderer.sprite = growth[stage];
     }
 
     public bool Harvestable() {
@@ -43,16 +49,21 @@ public class Plant : MonoBehaviour
         while (stage < growth.Length - 1) {
             print("stage " + stage);
             yield return new WaitForSeconds(timeToGrow);
-            if ( true ) { //Comfortable(plot.waterSaturation, )) {
+            if (Comfortable(plot.waterSaturation, 
+            GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
+            GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
+            )) {
                 stage++;
+                spriteRenderer.sprite = growth[stage];
             }
         }
     }
 
     public bool Comfortable(float water, float light, float temp) {
-        if (Mathf.Abs(water - waterRequirements) < 0.1 &&
-            Mathf.Abs(light - lightRequirements) < 0.1 &&
-            Mathf.Abs(temp - tempRequirements) < 0.1) {
+        print("w = " + water + ", l = " + light + ", t = " + temp);
+        if (Mathf.Abs(water - waterRequirements) < waterThreshold &&
+            Mathf.Abs(light - lightRequirements) < lightThreshold &&
+            Mathf.Abs(temp - tempRequirements) < tempThreshold) {
             return true;
         } else {
             return false;

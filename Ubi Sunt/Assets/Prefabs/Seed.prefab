@@ -106,7 +106,11 @@ MonoBehaviour:
   - {fileID: -1528080911, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -994103070, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   plot: {fileID: 0}
-  waterRequirements: 0
-  lightRequirements: 0
-  tempRequirements: 0
+  waterRequirements: 0.5
+  waterThreshold: 0.1
+  lightRequirements: 0.45
+  lightThreshold: 0.17
+  tempRequirements: 0.5
+  tempThreshold: 0.1
+  stage: 0
   timeToGrow: 2

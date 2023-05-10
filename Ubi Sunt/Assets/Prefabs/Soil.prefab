@@ -99,3 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plant: {fileID: 0}
   waterSaturation: 1
+  decayRate: 0.01

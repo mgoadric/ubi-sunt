@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance {get; private set;}
 
-    private Pod pod;
+    public Pod pod {get; set;}
 
     public GameObject podRotation;
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject ubi;
 
-    public GameObject bot;
+    public GameObject botPrefab;
 
     public GameObject curtain;
     private bool raiseLower = false;
@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
                                                      ubi.transform.position.y,
                                                      Camera.main.transform.position.z);
 
+        GameObject bot = Instantiate(botPrefab);
         pod.AddBot(bot);
 
         podRotation = GameObject.FindWithTag("PodTiles");

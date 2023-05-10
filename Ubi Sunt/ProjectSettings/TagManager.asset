@@ -8,6 +8,9 @@ TagManager:
   - Seed
   - Soil
   - PodTiles
+  - Heater
+  - ACUnit
+  - GrowLight
   layers:
   - Default
   - TransparentFX

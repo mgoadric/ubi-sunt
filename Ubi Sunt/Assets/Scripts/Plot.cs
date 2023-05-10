@@ -9,6 +9,8 @@ public class Plot : MonoBehaviour
 
     public float waterSaturation;
 
+    public float decayRate;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +24,8 @@ public class Plot : MonoBehaviour
 
     IEnumerator Evaporate() {
         while (true) {
-            waterSaturation *= .98f;
-            yield return new WaitForSeconds(0.1f);
+            waterSaturation *= (1 - decayRate);
+            yield return new WaitForSeconds(1);
         }
     }
 

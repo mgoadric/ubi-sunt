@@ -20,6 +20,8 @@ public class SceneChanger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider2D) {
         print("New scene?");
-        GameManager.Instance.ChangeScene(scene);
+        if (collider2D.gameObject.tag == "Player") {
+            GameManager.Instance.ChangeScene(scene);
+        }
     }
 }
