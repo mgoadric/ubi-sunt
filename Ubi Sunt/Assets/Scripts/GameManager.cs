@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(canvas);
-            //DontDestroyOnLoad(ubi);
  
         } else {
             Destroy(gameObject);
@@ -44,7 +43,11 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        pod = new Pod(9, 8);
+        LoadPod();
+    }
+
+    void LoadPod() {
+        pod = new Pod(6, 20);
 
         MakeThing(soil, 0, 4);
         MakeThing(soil, 0, 5);
@@ -58,8 +61,14 @@ public class GameManager : MonoBehaviour
         MakeThing(acunit, 3, 4);
         MakeThing(heater, 5, 5);
 
+        ubi = GameObject.FindWithTag("Player");
         ubi.GetComponent<UbiWorking>().SetPod(pod);
+        ubi.transform.position = new Vector3(pod.GetWidth() - 1, pod.GetCircumference() / 2 - 1, 0);
+        Camera.main.transform.position = new Vector3(ubi.transform.position.x,
+                                                     ubi.transform.position.y,
+                                                     Camera.main.transform.position.z);
 
+        podRotation = GameObject.FindWithTag("PodTiles");
         podRotation.GetComponent<PodRotation>().Setup(pod);
     }
 
@@ -115,7 +124,8 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-
+        // TODO 
+        LoadPod();
         StartCoroutine(ColorLerpFunction(false, 1));
     }
 

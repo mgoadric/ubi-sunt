@@ -16,6 +16,13 @@ public class PodRotation : MonoBehaviour
     private Transform cameraTransform;
     private float lastCameraY;
 
+    public GameObject leftExit;
+
+    public GameObject rightExit;
+
+    private int c;
+    private int w;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,28 +36,33 @@ public class PodRotation : MonoBehaviour
         walls = transform.Find("Walls").gameObject.GetComponent<Tilemap>();
         
         this.pod = pod;
-        int w = pod.GetWidth();
-        int c = pod.GetCircumference();
+        w = pod.GetWidth();
+        c = pod.GetCircumference();
         for (int y = 0; y < c; y++) {
             for (int x = 0; x < w; x++) {  
                 background.SetTile(new Vector3Int(x, y, 0), tracks);
             }
         }
-        for (int x = 0; x < w / 2; x++) {  
-            background.SetTile(new Vector3Int(-1 * x - 1, 0, 0), tracks);
-            background.SetTile(new Vector3Int(w + x, 0, 0), tracks);
+
+        // Connections
+        for (int x = 0; x < w; x++) {  
+            background.SetTile(new Vector3Int(-1 * x - 1, c / 2 - 1, 0), tracks);
+            background.SetTile(new Vector3Int(w + x, c / 2 - 1, 0), tracks);
         }
 
         // Walls
-        for (int y = 1; y < c; y++) {
-            for (int x = 0; x < w / 2; x++) {
-                walls.SetTile(new Vector3Int(-1 * x - 1, y, 0), wall);
-                walls.SetTile(new Vector3Int(w + x, y, 0), wall);
+        for (int y = 0; y < c; y++) {
+            if (y != c / 2 - 1) {
+                for (int x = 0; x < w; x++) {
+                    walls.SetTile(new Vector3Int(-1 * x - 1, y, 0), wall);
+                    walls.SetTile(new Vector3Int(w + x, y, 0), wall);
+                }
             }
         }
 
-        // Entrances
-
+        // Exits
+        leftExit.transform.position = new Vector3(-1, c / 2 - 1, 0);
+        rightExit.transform.position = new Vector3(w, c / 2 - 1, 0);
     }
 
     // Update is called once per frame
@@ -59,8 +71,6 @@ public class PodRotation : MonoBehaviour
         
         if (pod != null) {
             float currentCameraY = Mathf.Floor(cameraTransform.position.y);
-            int c = pod.GetCircumference();
-            int w = pod.GetWidth();
             int up = (int)lastCameraY + c / 2;
             int down = (int)lastCameraY - c / 2;
 
@@ -73,26 +83,28 @@ public class PodRotation : MonoBehaviour
                     background.SetTile(new Vector3Int(x, down, 0), null);                
                 }
                 
-                if (pod.RealMod(up, c) != 0) {
-                    for (int x = 0; x < w / 2; x++) {  
+                if (pod.RealMod(up, c) != c / 2 - 1) {
+                    for (int x = 0; x < w; x++) {  
                         walls.SetTile(new Vector3Int(-1 * x - 1, up, 0), wall);
                         walls.SetTile(new Vector3Int(w + x, up, 0), wall);
                         walls.SetTile(new Vector3Int(-1 * x - 1, down, 0), null);
                         walls.SetTile(new Vector3Int(w + x, down, 0), null);
                     }
                 } else {
-                    for (int x = 0; x < w / 2; x++) {  
+                    for (int x = 0; x < w; x++) {  
                         background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
                         background.SetTile(new Vector3Int(w + x, up, 0), tracks);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
                         background.SetTile(new Vector3Int(-1 * x - 1, down, 0), null);
                         background.SetTile(new Vector3Int(w + x, down, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
                     } 
+                    leftExit.transform.position += new Vector3(0, c, 0);
+                    rightExit.transform.position += new Vector3(0, c, 0);
                 }
 
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     GameObject thing = pod.Get(x, down);
                     if (thing != null) {
-                        thing.transform.position += new Vector3(0, pod.GetCircumference(), 0);
+                        thing.transform.position += new Vector3(0, c, 0);
                     }             
                 }
             }
@@ -103,25 +115,27 @@ public class PodRotation : MonoBehaviour
                     background.SetTile(new Vector3Int(x, down, 0), tracks);
                 }
 
-                if (pod.RealMod(down, c) != 0) {
-                    for (int x = 0; x < w / 2; x++) {  
+                if (pod.RealMod(down, c) != c / 2 - 1) {
+                    for (int x = 0; x < w; x++) {  
                         walls.SetTile(new Vector3Int(-1 * x - 1, down, 0), wall);
                         walls.SetTile(new Vector3Int(w + x, down, 0), wall);
                         walls.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
                         walls.SetTile(new Vector3Int(w + x, up, 0), null);
                     }
                 } else {
-                    for (int x = 0; x < w / 2; x++) {  
+                    for (int x = 0; x < w; x++) {  
                         background.SetTile(new Vector3Int(-1 * x - 1, down, 0), tracks);
                         background.SetTile(new Vector3Int(w + x, down, 0), tracks);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
-                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
                         background.SetTile(new Vector3Int(w + x, up, 0), null);                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), tracks);
+                        background.SetTile(new Vector3Int(-1 * x - 1, up, 0), null);
                     } 
+                    leftExit.transform.position -= new Vector3(0, c, 0);
+                    rightExit.transform.position -= new Vector3(0, c, 0);
                 }
                 for (int x = 0; x < pod.GetWidth(); x++) {
                     GameObject thing = pod.Get(x, down);
                     if (thing != null) {
-                        thing.transform.position -= new Vector3(0, pod.GetCircumference(), 0);
+                        thing.transform.position -= new Vector3(0, c, 0);
                     }             
                 }      
             }
