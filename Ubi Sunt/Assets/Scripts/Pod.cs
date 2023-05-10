@@ -9,14 +9,25 @@ public class Pod
 
     public GameObject[,] storage;
 
+    public float[,] temperature;
+    public float[,] lighting;
+
+    public List<GameObject> bots;
+
     public Pod(int width, int circumference) 
     {
         storage = new GameObject[width, circumference];
+        bots = new List<GameObject>();
+    }
+
+    public void AddBot(GameObject bot) {
+        bots.Add(bot);
     }
 
     public bool Set(int x, int y, GameObject go) {
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] == null) {
+            
             storage[x, cy] = go;
             go.transform.parent = null;
             go.transform.localScale = Vector3.one;
@@ -74,16 +85,14 @@ public class Pod
     }
 
     public float AmbientTemp(int x, int y) {
-        float temp = 0.0f;
         int cy = RealMod(y, GetCircumference());
         
-        return temp;
+        return temperature[x, cy];
     }
 
     public float AmbientLight(int x, int y) {
-        float shine = 0.0f;
         int cy = RealMod(y, GetCircumference());
 
-        return shine;
+        return lighting[x, cy];
     }
 }

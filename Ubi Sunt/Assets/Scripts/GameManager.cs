@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public GameObject acunit;
 
     public GameObject ubi;
+
+    public GameObject bot;
+    
     public GameObject curtain;
     private bool raiseLower = false;
 
@@ -47,7 +50,7 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadPod() {
-        pod = new Pod(6, 20);
+        pod = new Pod(6, 8);
 
         MakeThing(soil, 0, 4);
         MakeThing(soil, 0, 5);

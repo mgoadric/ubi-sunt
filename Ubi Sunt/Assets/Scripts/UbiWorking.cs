@@ -25,8 +25,6 @@ public class UbiWorking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pod != null && (movement.state == UbiMovement.State.REST ||
-                            movement.state == UbiMovement.State.WORKING)) {
             if (Input.GetKeyDown(KeyCode.Q)) {
                 Drop();
             }
@@ -36,27 +34,34 @@ public class UbiWorking : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.R)) {
                 // Interact (toggle?)
             }
-        }        
+              
     }
 
-    void Drop() {
-        if (storage.Count > 0) {
-            GameObject go = storage.Pop();
-            bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
-            if (!placed) {
-                storage.Push(go);
+    public void Drop() {
+        print("Trying to drop");
+        if (pod != null && (movement.state == UbiMovement.State.REST ||
+                    movement.state == UbiMovement.State.WORKING)) {
+            if (storage.Count > 0) {
+                GameObject go = storage.Pop();
+                bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
+                if (!placed) {
+                    storage.Push(go);
+                }
             }
         }
     }
 
-    void PickUp() {
+    public void PickUp() {
         print("Trying to pick up");
-        GameObject go = pod.Remove((int)transform.position.x, (int)transform.position.y);
-        if (go != null) {
-            storage.Push(go);
-            go.transform.parent = gameObject.transform;
-            go.transform.localScale = Vector3.one * 1.1f;
-            go.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+        if (pod != null && (movement.state == UbiMovement.State.REST ||
+                            movement.state == UbiMovement.State.WORKING)) {
+            GameObject go = pod.Remove((int)transform.position.x, (int)transform.position.y);
+            if (go != null) {
+                storage.Push(go);
+                go.transform.parent = gameObject.transform;
+                go.transform.localScale = Vector3.one * 1.1f;
+                go.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+            }
         }
     }
 }

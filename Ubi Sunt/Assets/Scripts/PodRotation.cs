@@ -61,8 +61,8 @@ public class PodRotation : MonoBehaviour
         }
 
         // Exits
-        leftExit.transform.position = new Vector3(-1, c / 2 - 1, 0);
-        rightExit.transform.position = new Vector3(w, c / 2 - 1, 0);
+        leftExit.transform.position = new Vector3(-2, c / 2 - 1, 0);
+        rightExit.transform.position = new Vector3(w + 1, c / 2 - 1, 0);
     }
 
     // Update is called once per frame
@@ -74,6 +74,7 @@ public class PodRotation : MonoBehaviour
             int up = (int)lastCameraY + c / 2;
             int down = (int)lastCameraY - c / 2;
 
+            //bool moving = false;
             if (currentCameraY > lastCameraY) {
                 up += 1;
                 down += 1;

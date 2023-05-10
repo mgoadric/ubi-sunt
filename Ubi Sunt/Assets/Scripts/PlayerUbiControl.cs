@@ -6,13 +6,14 @@ public class PlayerUbiControl : MonoBehaviour
 {
 
     private Animator animator;
-    private UbiMovement movement;
+
+    private UbiWorking worker;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        movement = GetComponent<UbiMovement>();
+        worker = GetComponent<UbiWorking>();
     }
 
     // Update is called once per frame
@@ -20,5 +21,14 @@ public class PlayerUbiControl : MonoBehaviour
     {
         animator.SetFloat("horizontal", Input.GetAxisRaw("Horizontal"));
         animator.SetFloat("vertical", Input.GetAxisRaw("Vertical"));
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            worker.Drop();
+        }
+        else if (Input.GetKeyDown(KeyCode.E)) {
+            worker.PickUp();
+        }
+        else if (Input.GetKeyDown(KeyCode.R)) {
+            // Interact (toggle?)
+        }
     }
 }
