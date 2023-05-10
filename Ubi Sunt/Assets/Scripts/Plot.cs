@@ -49,6 +49,8 @@ public class Plot : MonoBehaviour
             if (p.GetComponent<Plant>().Harvestable()) {
                 plant = null;
                 return p;
+            } else {
+                print("Plant cannot be harvested.");
             }
         }
         return null;

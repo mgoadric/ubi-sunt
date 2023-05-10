@@ -41,6 +41,7 @@ public class Plant : MonoBehaviour
     }
 
     public bool Harvestable() {
+        print("harvest? " + stage + ", " + (growth.Length - 1));
         return stage == growth.Length - 1;
     }
 

@@ -108,8 +108,8 @@ MonoBehaviour:
   plot: {fileID: 0}
   waterRequirements: 0.5
   waterThreshold: 0.1
-  lightRequirements: 0.45
-  lightThreshold: 0.17
+  lightRequirements: 0.17
+  lightThreshold: 0.1
   tempRequirements: 0.5
   tempThreshold: 0.1
   stage: 0
