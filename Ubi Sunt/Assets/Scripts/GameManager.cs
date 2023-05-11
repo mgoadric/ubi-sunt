@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        LoadPod();
+        //LoadPod();
     }
 
     void LoadPod() {
@@ -106,6 +106,9 @@ public class GameManager : MonoBehaviour
         }
         curtainImg.color = endValue;
         raiseLower = false;
+        if (!fadeout) {
+            curtain.SetActive(false);
+        }
     }
 
 
@@ -116,6 +119,7 @@ public class GameManager : MonoBehaviour
         // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
         // a sceneBuildIndex of 1 as shown in Build Settings.
 
+        curtain.SetActive(true);
         StartCoroutine(ColorLerpFunction(true, 1));
 
         while (raiseLower)
