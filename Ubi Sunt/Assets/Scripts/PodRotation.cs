@@ -68,7 +68,7 @@ public class PodRotation : MonoBehaviour
 
         // Exits
         leftExit.transform.position = new Vector3(-2, c / 2 - 1, 0);
-        rightExit.transform.position = new Vector3(w + 1, c / 2 - 1, 0);
+        rightExit.transform.position = new Vector3(w + 2, c / 2 - 1, 0);
     }
 
     // Update is called once per frame

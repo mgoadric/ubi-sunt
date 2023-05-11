@@ -6,6 +6,8 @@ public class SceneChanger : MonoBehaviour
 {
 
     public string scene;
+
+    public bool left;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class SceneChanger : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider2D) {
         print("New scene?");
         if (collider2D.gameObject.tag == "Player") {
+            GameManager.Instance.exitLeft = left;
             GameManager.Instance.ChangeScene(scene);
         }
     }

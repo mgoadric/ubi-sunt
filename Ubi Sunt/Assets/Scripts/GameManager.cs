@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject podRotation;
 
+    public bool exitLeft;
+
     public GameObject soil;
 
     public GameObject seed;
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     public GameObject ubi;
 
     public GameObject botPrefab;
+
+    public GameObject mainMenu;
 
     public GameObject curtain;
     private bool raiseLower = false;
@@ -93,7 +97,11 @@ public class GameManager : MonoBehaviour
 
         ubi = GameObject.FindWithTag("Player");
         ubi.GetComponent<UbiWorking>().SetPod(pod);
-        ubi.transform.position = new Vector3(pod.GetWidth() - 1, pod.GetCircumference() / 2 - 1, 0);
+        int shift = 0;
+        if (!exitLeft) {
+            shift = -(pod.GetWidth() - 1);
+        }
+        ubi.transform.position = new Vector3(shift + pod.GetWidth() - 1, pod.GetCircumference() / 2 - 1, 0);
         Camera.main.transform.position = new Vector3(ubi.transform.position.x,
                                                      ubi.transform.position.y,
                                                      Camera.main.transform.position.z);
@@ -162,6 +170,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         // TODO 
+        mainMenu.SetActive(false);
         LoadPod();
         StartCoroutine(ColorLerpFunction(false, 1));
     }

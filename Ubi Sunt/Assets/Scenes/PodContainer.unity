@@ -958,6 +958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: PodContainer
+  left: 0
 --- !u!61 &686229469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1030,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: PodContainer
+  left: 1
 --- !u!61 &736726621
 BoxCollider2D:
   m_ObjectHideFlags: 0
