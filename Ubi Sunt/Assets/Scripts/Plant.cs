@@ -50,7 +50,7 @@ public class Plant : MonoBehaviour
         while (stage < growth.Length - 1) {
             print("stage " + stage);
             yield return new WaitForSeconds(timeToGrow);
-            if (Comfortable(plot.waterSaturation, 
+            if (Comfortable(plot.WaterLevel(), 
             GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
             GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
             )) {

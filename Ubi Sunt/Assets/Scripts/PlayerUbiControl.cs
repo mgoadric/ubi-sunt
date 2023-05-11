@@ -21,13 +21,13 @@ public class PlayerUbiControl : MonoBehaviour
     {
         animator.SetFloat("horizontal", Input.GetAxisRaw("Horizontal"));
         animator.SetFloat("vertical", Input.GetAxisRaw("Vertical"));
-        if (Input.GetKeyDown(KeyCode.Q)) {
+        if (Input.GetKeyDown("q")) {
             worker.Drop();
         }
-        else if (Input.GetKeyDown(KeyCode.E)) {
+        else if (Input.GetKeyDown("e")) {
             worker.PickUp();
         }
-        else if (Input.GetKeyDown(KeyCode.R)) {
+        else if (Input.GetKeyDown("r")) {
             // Interact (toggle?)
         }
     }

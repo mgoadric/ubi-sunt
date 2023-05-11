@@ -82,6 +82,7 @@ public class Pod
             if (storage[x, cy].tag == "Soil") {
                 GameObject p = storage[x, cy].GetComponent<Plot>().Harvest();
                 if (p != null) {
+                    Debug.Log("Returning plant!");
                     return p;
                 }
             }
@@ -117,7 +118,7 @@ public class Pod
         for (int hx = -strength; hx < strength + 1; hx++) {
             for (int hy = -strength; hy < strength + 1; hy++) {
                 if (x + hx >= 0 && x + hx < GetWidth()) {
-                    float change = dir * Mathf.Max(0, (strength + 0.5f) - (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude);
+                    float change = Mathf.Round(10 * (dir * Mathf.Max(0, (strength + 0.5f) - (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude)));
                     ambient[hx + x, RealMod(hy + y, GetCircumference())] += change;
                 }
             }

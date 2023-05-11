@@ -25,15 +25,6 @@ public class UbiWorking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                Drop();
-            }
-            else if (Input.GetKeyDown(KeyCode.E)) {
-                PickUp();
-            }
-            else if (Input.GetKeyDown(KeyCode.R)) {
-                // Interact (toggle?)
-            }
               
     }
 

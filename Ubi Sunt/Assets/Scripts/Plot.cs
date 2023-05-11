@@ -56,5 +56,7 @@ public class Plot : MonoBehaviour
         return null;
     }
 
-
+    public float WaterLevel() {
+        return Mathf.Round(waterSaturation);
+    }
 }
