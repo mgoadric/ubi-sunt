@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -30,9 +31,35 @@ public class GameManager : MonoBehaviour
 
     public GameObject curtain;
     private bool raiseLower = false;
-
-
     public GameObject canvas;
+
+    public GameObject dialogBox;
+    public TextMeshProUGUI dialogText;
+
+    private IEnumerator textCo;
+    public float textSpeed = 0.02f;
+
+    public void DialogShow(string text) {
+        dialogBox.SetActive(true);
+        if (textCo != null) {
+            StopCoroutine(textCo);
+        }
+        textCo = TypeText(text);
+        StartCoroutine(textCo);
+    }
+
+    public void DialogHide() {
+        dialogBox.SetActive(false);
+    }
+
+    IEnumerator TypeText(string text) {
+        dialogText.text = "";
+        foreach (char c in text.ToCharArray()) {
+            dialogText.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+        textCo = null;
+    }
 
     void Awake() {
         if (Instance == null) {
