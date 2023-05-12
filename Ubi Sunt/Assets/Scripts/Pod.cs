@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 
-public class Pod
+public class Pod : MonoBehaviour
 {
 
     public GameObject[,] storage;
@@ -14,12 +14,45 @@ public class Pod
 
     public List<GameObject> bots;
 
-    public Pod(int width, int circumference) 
+    public GameObject soilPrefab;
+
+    public GameObject seedPrefab;
+
+    public GameObject growLightPrefab;
+
+    public GameObject heaterPrefab;
+
+    public GameObject acunitPrefab;
+
+    public GameObject waterPrefab;
+
+    public GameObject spigotPrefab;
+
+    public GameObject botPrefab;
+
+    public void Setup(int width, int circumference) 
     {
         storage = new GameObject[width, circumference];
         temperature = new float[width, circumference];
         lighting = new float[width, circumference];
         bots = new List<GameObject>();
+
+        Make(soilPrefab, 0, 4);
+        Make(soilPrefab, 0, 5);
+        Make(soilPrefab, 0, 6);
+        Make(seedPrefab, 4, 2);
+        Make(seedPrefab, 4, 1);
+
+        Make(growLightPrefab, 1, 3);
+        Make(growLightPrefab, 5, 2);
+        Make(growLightPrefab, 3, 3);        
+        //Make(waterPrefab, 3, 4);
+        Make(heaterPrefab, 5, 5);
+        Make(spigotPrefab, 0, 1);
+        Make(acunitPrefab, 5, 6);
+
+        GameObject bot = Instantiate(botPrefab);
+        AddBot(bot);
     }
 
     public void AddBot(GameObject bot) {
@@ -35,6 +68,12 @@ public class Pod
             }
         }
     }
+
+    void Make(GameObject thing, int x, int y) {
+        GameObject t = Instantiate(thing, new Vector3(x, y, 0), Quaternion.identity);
+        Set(x, y, t);
+    }
+
 
     public bool Set(int x, int y, GameObject go) {
         int cy = RealMod(y, GetCircumference());
@@ -54,14 +93,19 @@ public class Pod
             go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
             return true;
         } else {
-            Debug.Log("Seed into soil??");
-            Debug.Log(storage[x, cy].tag + ", " + go.tag);
-            if (storage[x, cy].tag == "Soil" && go.tag == "Seed") {
-                Debug.Log("It worked!");
-                if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
-                    go.transform.localScale = Vector3.one;
-                    go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
-                return true;
+        
+            if (storage[x, cy].tag == "Soil") {
+                if (go.tag == "Seed") {
+                    Debug.Log("Planted a seed!");
+                    if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
+                        go.transform.localScale = Vector3.one;
+                        go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                    return true;
+                    }
+                } else if (go.tag == "Water") {
+                    storage[x, cy].GetComponent<Plot>().Water();
+                    Destroy(go);
+                    return true;
                 }
             }
         }
@@ -79,23 +123,30 @@ public class Pod
     public GameObject Remove(int x, int y) {
         int cy = RealMod(y, GetCircumference());
         if (storage[x, cy] != null) {
-            if (storage[x, cy].tag == "Soil") {
-                GameObject p = storage[x, cy].GetComponent<Plot>().Harvest();
+            GameObject go = storage[x, cy];
+
+            if (go.tag == "Soil") {
+                GameObject p = go.GetComponent<Plot>().Harvest();
                 if (p != null) {
                     Debug.Log("Returning plant!");
                     return p;
                 }
             }
-            else if (storage[x, cy].tag == "Heater") {
+            else if (go.tag == "Heater") {
                 ChangeAmbient(x, cy, 1, -1, temperature);
             }
-            else if (storage[x, cy].tag == "GrowLight") {
+            else if (go.tag == "GrowLight") {
                 ChangeAmbient(x, cy, 1, -1, lighting);
             }   
-            else if (storage[x, cy].tag == "ACUnit") {
+            else if (go.tag == "ACUnit") {
                 ChangeAmbient(x, cy, 1, 1, temperature);
-            }   
-            GameObject go = storage[x, cy];
+            } 
+            else if (go.tag == "Spigot") {
+                GameObject w = Instantiate(waterPrefab, 
+                go.transform.position, Quaternion.identity);
+                return w;
+            }
+
             storage[x, cy] = null;
             return go;
         }

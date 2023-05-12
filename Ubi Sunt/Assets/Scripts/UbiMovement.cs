@@ -76,8 +76,9 @@ public class UbiMovement : MonoBehaviour
             Vector2 desired = target - transform.position;
             if (desired.magnitude < 0.01) {
                 StopMoving();
-                state = State.WORKING;
-                StartCoroutine("Work");
+                state = State.REST;
+                //state = State.WORKING;
+                //StartCoroutine("Work");
             } else {
                 rigidbody.AddForce(desired.normalized * (speed / 4) - rigidbody.velocity);
             }

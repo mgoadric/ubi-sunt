@@ -11,6 +11,9 @@ TagManager:
   - Heater
   - ACUnit
   - GrowLight
+  - Water
+  - Spigot
+  - Pollen
   layers:
   - Default
   - TransparentFX

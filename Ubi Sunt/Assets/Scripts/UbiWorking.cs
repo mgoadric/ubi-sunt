@@ -30,8 +30,7 @@ public class UbiWorking : MonoBehaviour
 
     public void Drop() {
         print("Trying to drop");
-        if (pod != null && (movement.state == UbiMovement.State.REST ||
-                    movement.state == UbiMovement.State.WORKING)) {
+        if (pod != null && (movement.state == UbiMovement.State.REST)) {
             if (storage.Count > 0) {
                 GameObject go = storage.Pop();
                 bool placed = pod.Set((int)transform.position.x, (int)transform.position.y, go);
@@ -44,8 +43,7 @@ public class UbiWorking : MonoBehaviour
 
     public void PickUp() {
         print("Trying to pick up");
-        if (pod != null && (movement.state == UbiMovement.State.REST ||
-                            movement.state == UbiMovement.State.WORKING)) {
+        if (pod != null && (movement.state == UbiMovement.State.REST)) {
             GameObject go = pod.Remove((int)transform.position.x, (int)transform.position.y);
             if (go != null) {
                 storage.Push(go);

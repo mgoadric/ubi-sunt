@@ -13,23 +13,14 @@ public class GameManager : MonoBehaviour
 
     public Pod pod {get; set;}
 
+    public GameObject podPrefab;
+
     public GameObject podRotation;
 
     public bool exitLeft;
 
-    public GameObject soil;
-
-    public GameObject seed;
-
-    public GameObject growLight;
-
-    public GameObject heater;
-
-    public GameObject acunit;
-
     public GameObject ubi;
 
-    public GameObject botPrefab;
 
     public GameObject mainMenu;
 
@@ -81,19 +72,9 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadPod() {
-        pod = new Pod(6, 8);
-
-        MakeThing(soil, 0, 4);
-        MakeThing(soil, 0, 5);
-        MakeThing(soil, 0, 6);
-        MakeThing(seed, 4, 2);
-        MakeThing(seed, 4, 1);
-
-        MakeThing(growLight, 1, 3);
-        MakeThing(growLight, 5, 2);
-        MakeThing(growLight, 3, 3);        
-        MakeThing(acunit, 3, 4);
-        MakeThing(heater, 5, 5);
+        GameObject pp = Instantiate(podPrefab);
+        pod = pp.GetComponent<Pod>();
+        pod.Setup(6, 8);
 
         ubi = GameObject.FindWithTag("Player");
         ubi.GetComponent<UbiWorking>().SetPod(pod);
@@ -106,16 +87,10 @@ public class GameManager : MonoBehaviour
                                                      ubi.transform.position.y,
                                                      Camera.main.transform.position.z);
 
-        GameObject bot = Instantiate(botPrefab);
-        pod.AddBot(bot);
+
 
         podRotation = GameObject.FindWithTag("PodTiles");
         podRotation.GetComponent<PodRotation>().Setup(pod);
-    }
-
-    void MakeThing(GameObject thing, int x, int y) {
-        GameObject t = Instantiate(thing, new Vector3(x, y, 0), Quaternion.identity);
-        pod.Set(x, y, t);
     }
 
     IEnumerator ColorLerpFunction(bool fadeout, float duration)

@@ -9,6 +9,8 @@ public class Plant : MonoBehaviour
 
     public Plot plot;
 
+    public GameObject pollenPrefab;
+
     public float waterRequirements;
 
     public float waterThreshold;
@@ -58,6 +60,7 @@ public class Plant : MonoBehaviour
                 spriteRenderer.sprite = growth[stage];
             }
         }
+        Instantiate(pollenPrefab, transform.position, Quaternion.identity);
     }
 
     public bool Comfortable(float water, float light, float temp) {
