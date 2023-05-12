@@ -62,6 +62,7 @@ public class Plant : MonoBehaviour
         }
         GameObject pollen = Instantiate(pollenPrefab, transform.position, Quaternion.identity);
         pollen.GetComponent<Pollen>().origin = gameObject;
+        pollen.transform.parent = transform;
     }
 
     public bool Comfortable(float water, float light, float temp) {
@@ -77,6 +78,7 @@ public class Plant : MonoBehaviour
 
     public void SetPlot(Plot plot) {
         this.plot = plot;
+        GetComponent<Rigidbody2D>().simulated = true;
         StartCoroutine("Grow");
         print("started grow??");
     }

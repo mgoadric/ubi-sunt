@@ -428,7 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 659151760}
   - component: {fileID: 659151761}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +775,7 @@ GameObject:
   - component: {fileID: 1091219663}
   - component: {fileID: 1091219664}
   - component: {fileID: 1091219665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ubi
   m_TagString: Player
   m_Icon: {fileID: 0}

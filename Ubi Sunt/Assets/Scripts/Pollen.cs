@@ -27,9 +27,11 @@ public class Pollen : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider2D) {
         if (collider2D.gameObject.tag == "Player" || collider2D.gameObject.tag == "Robot") {
             target = collider2D.gameObject;
+            transform.parent = null;
         } else if (collider2D.gameObject.tag == "Seed") {
+            print("POLLINATION!!!!");
             if (origin != collider2D.gameObject) {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
     }
