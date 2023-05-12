@@ -28,7 +28,7 @@ public class PlayerUbiControl : MonoBehaviour
             worker.PickUp();
         }
         else if (Input.GetKeyDown("r")) {
-            // Interact (toggle?)
+            GameManager.Instance.ToggleInfoBox();
         }
     }
 }

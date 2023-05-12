@@ -6,8 +6,12 @@ public class Plant : MonoBehaviour
 {
 
     public Sprite[] growth;
+    
+    public GameObject fruit;
 
     public Plot plot;
+
+    private bool pollinated = false;
 
     public GameObject pollenPrefab;
 
@@ -40,6 +44,10 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void Pollinate() {
+        pollinated = true;
     }
 
     public bool Harvestable() {

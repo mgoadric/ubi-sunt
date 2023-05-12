@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     public GameObject dialogBox;
     public TextMeshProUGUI dialogText;
 
+    public GameObject infoBox;
+
     private IEnumerator textCo;
     public float textSpeed = 0.02f;
 
@@ -45,6 +47,10 @@ public class GameManager : MonoBehaviour
 
     public void DialogHide() {
         dialogBox.SetActive(false);
+    }
+
+    public void ToggleInfoBox() {
+        infoBox.SetActive(!infoBox.activeSelf);
     }
 
     IEnumerator TypeText(string text) {
@@ -146,7 +152,9 @@ public class GameManager : MonoBehaviour
         }
         // TODO 
         mainMenu.SetActive(false);
-        LoadPod();
+        if (scene == "PodContainer") {
+            LoadPod();
+        }
         StartCoroutine(ColorLerpFunction(false, 1));
     }
 
