@@ -60,7 +60,8 @@ public class Plant : MonoBehaviour
                 spriteRenderer.sprite = growth[stage];
             }
         }
-        Instantiate(pollenPrefab, transform.position, Quaternion.identity);
+        GameObject pollen = Instantiate(pollenPrefab, transform.position, Quaternion.identity);
+        pollen.GetComponent<Pollen>().origin = gameObject;
     }
 
     public bool Comfortable(float water, float light, float temp) {
