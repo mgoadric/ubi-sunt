@@ -43,15 +43,25 @@ public class Plot : MonoBehaviour
         return false;
     }
 
+    public GameObject Crop() {
+        if (plant != null) {
+            GameObject p = plant;
+            if (p.GetComponent<Plant>().Harvestable()) {
+                return p.GetComponent<Plant>().Fruit();
+            } else {
+                print("Plant is not ready yet.");
+                return p;
+            }
+        }
+        return null;       
+    }
+
     public GameObject Harvest() {
         if (plant != null) {
             GameObject p = plant;
             if (p.GetComponent<Plant>().Harvestable()) {
-                plant = null;
-                return p;
-            } else {
-                print("Plant cannot be harvested.");
-            }
+                return p.GetComponent<Plant>().TakeFruit();
+            } 
         }
         return null;
     }

@@ -76,36 +76,39 @@ public class Pod : MonoBehaviour
 
 
     public bool Set(int x, int y, GameObject go) {
-        int cy = RealMod(y, GetCircumference());
-        if (storage[x, cy] == null) {
-            if (go.tag == "Heater") {
-                ChangeAmbient(x, cy, 1, 1, temperature);
-            }
-            if (go.tag == "ACUnit") {
-                ChangeAmbient(x, cy, 1, -1, temperature);
-            }
-            if (go.tag == "GrowLight") {
-                ChangeAmbient(x, cy, 1, 1, lighting);
-            }            
-            storage[x, cy] = go;
-            go.transform.parent = null;
-            go.transform.localScale = Vector3.one;
-            go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
-            return true;
-        } else {
-        
-            if (storage[x, cy].tag == "Soil") {
-                if (go.tag == "Seed") {
-                    Debug.Log("Planted a seed!");
-                    if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
-                        go.transform.localScale = Vector3.one;
-                        go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
-                    return true;
+        if (x >= 0 && x < GetWidth()) {
+            int cy = RealMod(y, GetCircumference());
+            if (storage[x, cy] == null) {
+                if (go.tag == "Heater") {
+                    ChangeAmbient(x, cy, 1, 1, temperature);
+                }
+                if (go.tag == "ACUnit") {
+                    ChangeAmbient(x, cy, 1, -1, temperature);
+                }
+                if (go.tag == "GrowLight") {
+                    ChangeAmbient(x, cy, 1, 1, lighting);
+                }            
+                storage[x, cy] = go;
+                go.transform.parent = null;
+                go.transform.localScale = Vector3.one;
+                go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                return true;
+            } else {
+            
+                if (storage[x, cy].tag == "Soil") {
+                    if (go.tag == "Seed") {
+                        Debug.Log("Planted a seed!");
+                        if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
+                            go.transform.localScale = Vector3.one;
+                            go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                            go.tag = "Plant";
+                        return true;
+                        }
+                    } else if (go.tag == "Water") {
+                        storage[x, cy].GetComponent<Plot>().Water();
+                        Destroy(go);
+                        return true;
                     }
-                } else if (go.tag == "Water") {
-                    storage[x, cy].GetComponent<Plot>().Water();
-                    Destroy(go);
-                    return true;
                 }
             }
         }
@@ -113,42 +116,56 @@ public class Pod : MonoBehaviour
     }
 
     public GameObject Get(int x, int y) {
-        int cy = RealMod(y, GetCircumference());
-        if (storage[x, cy] != null) {
-            return storage[x, cy];
+        if (x >= 0 && x < GetWidth()) {
+            int cy = RealMod(y, GetCircumference());
+            if (storage[x, cy] != null) {
+                GameObject go = storage[x, cy];
+
+                if (go.tag == "Soil") {
+                    GameObject p = go.GetComponent<Plot>().Crop();
+                    if (p != null) {
+                        Debug.Log("Returning plant or fruit!");
+                        return p;
+                    }
+                }
+                return go;
+            }
         }
         return null;
     }
 
     public GameObject Remove(int x, int y) {
-        int cy = RealMod(y, GetCircumference());
-        if (storage[x, cy] != null) {
-            GameObject go = storage[x, cy];
+        if (x >= 0 && x < GetWidth()) {
 
-            if (go.tag == "Soil") {
-                GameObject p = go.GetComponent<Plot>().Harvest();
-                if (p != null) {
-                    Debug.Log("Returning plant!");
-                    return p;
+            int cy = RealMod(y, GetCircumference());
+            if (storage[x, cy] != null) {
+                GameObject go = storage[x, cy];
+
+                if (go.tag == "Soil") {
+                    GameObject p = go.GetComponent<Plot>().Harvest();
+                    if (p != null) {
+                        Debug.Log("Returning plant!");
+                        return p;
+                    }
                 }
-            }
-            else if (go.tag == "Heater") {
-                ChangeAmbient(x, cy, 1, -1, temperature);
-            }
-            else if (go.tag == "GrowLight") {
-                ChangeAmbient(x, cy, 1, -1, lighting);
-            }   
-            else if (go.tag == "ACUnit") {
-                ChangeAmbient(x, cy, 1, 1, temperature);
-            } 
-            else if (go.tag == "Spigot") {
-                GameObject w = Instantiate(waterPrefab, 
-                go.transform.position, Quaternion.identity);
-                return w;
-            }
+                else if (go.tag == "Heater") {
+                    ChangeAmbient(x, cy, 1, -1, temperature);
+                }
+                else if (go.tag == "GrowLight") {
+                    ChangeAmbient(x, cy, 1, -1, lighting);
+                }   
+                else if (go.tag == "ACUnit") {
+                    ChangeAmbient(x, cy, 1, 1, temperature);
+                } 
+                else if (go.tag == "Spigot") {
+                    GameObject w = Instantiate(waterPrefab, 
+                    go.transform.position, Quaternion.identity);
+                    return w;
+                }
 
-            storage[x, cy] = null;
-            return go;
+                storage[x, cy] = null;
+                return go;
+            }
         }
         return null;
     }

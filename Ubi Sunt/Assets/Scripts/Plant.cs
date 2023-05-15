@@ -46,13 +46,22 @@ public class Plant : MonoBehaviour
     {
     }
 
-    void Pollinate() {
+    public void Pollinate() {
         pollinated = true;
     }
 
     public bool Harvestable() {
         print("harvest? " + stage + ", " + (growth.Length - 1));
         return stage == growth.Length - 1;
+    }
+
+    // FIXME
+    public GameObject Fruit() {
+        return gameObject;
+    }
+
+    public GameObject TakeFruit() {
+        return gameObject;
     }
 
     IEnumerator Grow() {
@@ -89,5 +98,70 @@ public class Plant : MonoBehaviour
         GetComponent<Rigidbody2D>().simulated = true;
         StartCoroutine("Grow");
         print("started grow??");
+    }
+
+    public string WaterText() {
+        if (waterRequirements < 2) {
+            return "ARID";
+        } else if (waterRequirements > 8) {
+            return "HUMID";
+        } else {
+            return "MED";
+        }
+    }
+
+    public Color WaterColor() {
+        if (plot != null) {
+            if (Mathf.Abs(plot.WaterLevel() - waterRequirements) < waterThreshold) {
+                return new Color(0, 1, 0);
+            } else {
+                return new Color(1, 0, 0);
+            }
+        } else {
+            return new Color(1, 1, 0);
+        }
+    }
+
+    public Color LightColor() {
+        if (plot != null) {
+            if (Mathf.Abs(GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y) - lightRequirements) < lightThreshold) {
+                return new Color(0, 1, 0);
+            } else {
+                return new Color(1, 0, 0);
+            }
+        } else {
+            return new Color(1, 1, 0);
+        }
+    }
+
+    public Color TempColor() {
+        if (plot != null) {
+            if (Mathf.Abs(GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y) - tempRequirements) < tempThreshold) {
+                return new Color(0, 1, 0);
+            } else {
+                return new Color(1, 0, 0);
+            }
+        } else {
+            return new Color(1, 1, 0);
+        }
+    }
+
+    public string LightText() {
+        if (lightRequirements <= 5) {
+            return "LOW";
+        } else if (lightRequirements > 10) {
+            return "PART";
+        } else {
+            return "FULL";
+        }
+    }
+    public string TempText() {
+        if (tempRequirements < 10) {
+            return "COLD";
+        } else if (tempRequirements > 30) {
+            return "HOT";
+        } else {
+            return "MOD";
+        }
     }
 }
