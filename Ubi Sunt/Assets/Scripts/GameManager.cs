@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        //LoadPod();
+        exitLeft = true;
     }
 
     void LoadPod() {
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 
 
         podRotation = GameObject.FindWithTag("PodTiles");
-        podRotation.GetComponent<PodRotation>().Setup(pod, true);
+        podRotation.GetComponent<PodRotation>().Setup(pod, true, true);
     }
 
     IEnumerator ColorLerpFunction(bool fadeout, float duration)

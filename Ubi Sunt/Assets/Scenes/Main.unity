@@ -1392,7 +1392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &677680573
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1791,6 +1791,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62868479cfc0d435590b603044038f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  podCount: 0
+  currentPod: 0
   podPrefab: {fileID: 5442485004491825467, guid: 87012d8a2da914da59b07275d0274b50, type: 3}
   podRotation: {fileID: 0}
   exitLeft: 0
@@ -3412,3 +3414,7 @@ MonoBehaviour:
   plantStatus: {fileID: 940019087}
   waterStatus: {fileID: 196836822}
   waterStatusColor: {fileID: 929304401}
+  lightStatus: {fileID: 748673923}
+  lightStatusColor: {fileID: 774671827}
+  tempStatus: {fileID: 292109476}
+  tempStatusColor: {fileID: 152962348}

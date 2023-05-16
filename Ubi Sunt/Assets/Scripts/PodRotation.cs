@@ -34,7 +34,7 @@ public class PodRotation : MonoBehaviour
 
     }
 
-    public void Setup(Pod pod, bool lastPod) {
+    public void Setup(Pod pod, bool lastPod, bool firstPod) {
         this.lastPod = lastPod;
         cameraTransform = Camera.main.transform;
         lastCameraY = Mathf.Floor(cameraTransform.position.y);
@@ -76,9 +76,15 @@ public class PodRotation : MonoBehaviour
 
         // Exits
         if (!lastPod) {
+            leftExit.SetActive(true);
             leftExit.transform.position = new Vector3(-2, c / 2 - 1, 0);
+        } else {
+            leftExit.SetActive(false);
         }
         rightExit.transform.position = new Vector3(w + 2, c / 2 - 1, 0);
+        if (firstPod) {
+            rightExit.GetComponent<SceneChanger>().scene = "Store";
+        }
     }
 
     // Update is called once per frame

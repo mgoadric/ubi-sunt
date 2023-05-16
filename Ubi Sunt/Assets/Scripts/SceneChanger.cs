@@ -23,6 +23,9 @@ public class SceneChanger : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider2D) {
         print("New scene?");
         if (collider2D.gameObject.tag == "Player") {
+            if (scene == "Store") {
+                left = true;
+            }
             GameManager.Instance.exitLeft = left;
             GameManager.Instance.ChangeScene(scene);
         }
