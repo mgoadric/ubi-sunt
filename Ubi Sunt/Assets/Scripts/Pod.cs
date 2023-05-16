@@ -134,6 +134,17 @@ public class Pod : MonoBehaviour
         return null;
     }
 
+   public GameObject GetBase(int x, int y) {
+        if (x >= 0 && x < GetWidth()) {
+            int cy = RealMod(y, GetCircumference());
+            if (storage[x, cy] != null) {
+                GameObject go = storage[x, cy];
+                return go;
+            }
+        }
+        return null;
+    }
+
     public GameObject Remove(int x, int y) {
         if (x >= 0 && x < GetWidth()) {
 

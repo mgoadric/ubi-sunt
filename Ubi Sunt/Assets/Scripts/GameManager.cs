@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
 
     public Pod pod {get; set;}
 
+    public int podCount;
+    public int currentPod;
+
     public GameObject podPrefab;
 
     public GameObject podRotation;
@@ -96,7 +99,7 @@ public class GameManager : MonoBehaviour
 
 
         podRotation = GameObject.FindWithTag("PodTiles");
-        podRotation.GetComponent<PodRotation>().Setup(pod);
+        podRotation.GetComponent<PodRotation>().Setup(pod, true);
     }
 
     IEnumerator ColorLerpFunction(bool fadeout, float duration)
