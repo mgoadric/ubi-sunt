@@ -15,11 +15,11 @@ public class Plant : MonoBehaviour
 
     public Plot plot;
 
-    private bool pollinated = false;
+    public Genetics pollenGenes;
 
     public GameObject pollenPrefab;
 
-    public GeneInfo genes;
+    public Genetics genes;
 
     public int stage;
 
@@ -39,27 +39,33 @@ public class Plant : MonoBehaviour
     {
     }
 
-    public void SetGenes(GeneInfo genes) {
+    public void SetGenes(Genetics genes) {
         this.genes = genes;
     }
 
+    public bool IsPollinated() {
+        return pollenGenes != null;
+    }
+
     public void Pollinate(Pollen pollen) {
+        pollenGenes = pollen.genes;
         StartCoroutine("MakeFruit");
-        pollinated = true;
     }
 
     public bool Harvestable() {
-        print("harvest? " + stage + ", " + (growth.Length - 1));
-        return stage == growth.Length - 1;
+        return fruits.Count != 0;
     }
 
     // FIXME
     public GameObject Fruit() {
-        return gameObject;
+        if (Harvestable()) {
+            return fruits[0];
+        }
+        return null;
     }
 
     public GameObject TakeFruit() {
-        if (fruits.Count != 0) {
+        if (Harvestable()) {
             GameObject f = fruits[0];
             fruits.RemoveAt(0);
             return f;
@@ -96,10 +102,14 @@ public class Plant : MonoBehaviour
             )) {
                 GameObject f = Instantiate(fruit, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
                 fruits.Add(f);
+                // using genes from pollen and me
+
+
+                f.GetComponent<Fruit>().SetGenes(genes.Recombine(pollenGenes));
+
                 fruitMade++;
             }
         }
-        // using genes from pollen and me
     }
 
 

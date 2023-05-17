@@ -12,7 +12,7 @@ public class Pollen : MonoBehaviour
     public float easing = 0.001f;
     // Start is called before the first frame update
 
-    public GeneInfo genes;
+    public Genetics genes;
 
     void Start()
     {
@@ -32,15 +32,16 @@ public class Pollen : MonoBehaviour
             target = collider2D.gameObject;
             transform.parent = null;
         } else if (collider2D.gameObject.tag == "Plant") {
-            if (origin != collider2D.gameObject) {
+            Plant p = collider2D.gameObject.GetComponent<Plant>();
+            if (origin != collider2D.gameObject && !p.IsPollinated()) {
                 print("POLLINATION!!!!");
-                collider2D.gameObject.GetComponent<Plant>().Pollinate(this);
+                p.Pollinate(this);
                 Destroy(gameObject);
             }
         }
     }
 
-    public void SetGenes(GeneInfo genes) {
+    public void SetGenes(Genetics genes) {
         this.genes = genes;
     }
 }

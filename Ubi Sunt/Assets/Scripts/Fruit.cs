@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
+
+    public Genetics genes;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +18,9 @@ public class Fruit : MonoBehaviour
     {
         
     }
+
+    public void SetGenes(Genetics genes) {
+        this.genes = genes;
+    }
+
 }

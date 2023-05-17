@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public struct GeneInfo {
+public class Genetics {
 
     public string name;
 
@@ -22,7 +22,7 @@ public struct GeneInfo {
     public int numFruit;
 
 
-    public GeneInfo(string name, float waterRequirements, float waterThreshold,
+    public Genetics(string name, float waterRequirements, float waterThreshold,
                           float lightRequirements, float lightThreshold,
                           float tempRequirements, float tempThreshold,
                           int timeToGrow, int numFruit) {
@@ -100,7 +100,7 @@ public struct GeneInfo {
         }
     }
 
-    public GeneInfo Recombine(GeneInfo other) {
+    public Genetics Recombine(Genetics other) {
         // TODO
         return this;
     }
