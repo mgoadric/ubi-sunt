@@ -23,21 +23,21 @@ public class StoreDialog : MonoBehaviour
 
     IEnumerator IntroScene() {
         while (mechanic.transform.position.x < 1) {
-            mechanic.transform.position += 0.01f * Vector3.right;
+            mechanic.transform.position += 0.02f * Vector3.right;
             yield return new WaitForSeconds(0.01f);
         }
         GameManager.Instance.DialogShow("Ubi? Where are you?");
         yield return new WaitForSeconds(1);
 
         while (ubi.transform.position.x < -3.5) {
-            ubi.transform.position += 0.02f * Vector3.right;
+            ubi.transform.position += 0.03f * Vector3.right;
             yield return new WaitForSeconds(0.01f);
         }
         GameManager.Instance.DialogHide();
         mechanic.GetComponent<SpriteRenderer>().flipX = true;
 
         while (mechanic.transform.position.x > -1) {
-            mechanic.transform.position += 0.01f * Vector3.left;
+            mechanic.transform.position += 0.02f * Vector3.left;
             yield return new WaitForSeconds(0.01f);
         }
         GameManager.Instance.DialogShow("There you are!");
@@ -49,8 +49,8 @@ public class StoreDialog : MonoBehaviour
 
         GameManager.Instance.DialogHide();
         //mechanic.GetComponent<SpriteRenderer>().flipX = false;
-        while (ubi.transform.position.x > -10.5) {
-            ubi.transform.position -= 0.03f * Vector3.right;
+        while (ubi.transform.position.x > -11.5) {
+            ubi.transform.position -= 0.04f * Vector3.right;
             yield return new WaitForSeconds(0.01f);
         }
         //yield return new WaitForSeconds(1);

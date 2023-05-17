@@ -9,6 +9,10 @@ public class Plant : MonoBehaviour
     
     public GameObject fruit;
 
+    public List<GameObject> fruits;
+
+    public int fruitMade;
+
     public Plot plot;
 
     private bool pollinated = false;
@@ -19,14 +23,13 @@ public class Plant : MonoBehaviour
 
     public int stage;
 
-    public float timeToGrow;
-
     private SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        fruits = new List<GameObject>();
         spriteRenderer.sprite = growth[stage];
         stage = 0;
     }
@@ -41,8 +44,7 @@ public class Plant : MonoBehaviour
     }
 
     public void Pollinate(Pollen pollen) {
-        // make fruit
-        // using genes from pollen and me
+        StartCoroutine("MakeFruit");
         pollinated = true;
     }
 
@@ -57,14 +59,19 @@ public class Plant : MonoBehaviour
     }
 
     public GameObject TakeFruit() {
-        return gameObject;
+        if (fruits.Count != 0) {
+            GameObject f = fruits[0];
+            fruits.RemoveAt(0);
+            return f;
+        }
+        return null;
     }
 
     IEnumerator Grow() {
         print("Growing??");
         while (stage < growth.Length - 1) {
             print("stage " + stage);
-            yield return new WaitForSeconds(timeToGrow);
+            yield return new WaitForSeconds(genes.timeToGrow);
             if (genes.Comfortable(plot.WaterLevel(), 
             GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
             GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
@@ -79,11 +86,28 @@ public class Plant : MonoBehaviour
         pollen.transform.parent = transform;
     }
 
+    IEnumerator MakeFruit() {
+        print("Making fruit??");
+        while (fruitMade < genes.numFruit) {
+            yield return new WaitForSeconds(genes.timeToGrow * 2);
+            if (genes.Comfortable(plot.WaterLevel(), 
+            GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
+            GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
+            )) {
+                GameObject f = Instantiate(fruit, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
+                fruits.Add(f);
+                fruitMade++;
+            }
+        }
+        // using genes from pollen and me
+    }
+
 
     public void SetPlot(Plot plot) {
         this.plot = plot;
         GetComponent<Rigidbody2D>().simulated = true;
         StartCoroutine("Grow");
+        transform.GetChild(0).gameObject.SetActive(true);
         print("started grow??");
     }
 

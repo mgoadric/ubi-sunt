@@ -17,10 +17,15 @@ public struct GeneInfo {
 
     public float tempT;
 
+    public int timeToGrow;
+
+    public int numFruit;
+
 
     public GeneInfo(string name, float waterRequirements, float waterThreshold,
                           float lightRequirements, float lightThreshold,
-                          float tempRequirements, float tempThreshold) {
+                          float tempRequirements, float tempThreshold,
+                          int timeToGrow, int numFruit) {
         this.name = name;
         this.waterR = waterRequirements;
         this.waterT = waterThreshold;
@@ -28,6 +33,8 @@ public struct GeneInfo {
         this.lightT = lightThreshold;
         this.tempR = tempRequirements;
         this.tempT = tempThreshold;
+        this.timeToGrow = timeToGrow;
+        this.numFruit = numFruit;
     }
 
     public string WaterText() {
@@ -60,9 +67,9 @@ public struct GeneInfo {
 
     public bool Comfortable(float water, float light, float temp) {
         Debug.Log("w = " + water + ", l = " + light + ", t = " + temp);
-        if (Mathf.Abs(water - waterR) < waterT &&
-            Mathf.Abs(light - lightR) < lightT &&
-            Mathf.Abs(temp - tempR) < tempT) {
+        if (Mathf.Abs(water - waterR) <= waterT &&
+            Mathf.Abs(light - lightR) <= lightT &&
+            Mathf.Abs(temp - tempR) <= tempT) {
             return true;
         } else {
             return false;

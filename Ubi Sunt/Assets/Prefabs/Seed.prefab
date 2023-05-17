@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: -620793063
   m_SortingLayer: -3
   m_SortingOrder: 2
-  m_Sprite: {fileID: -1338481250, guid: 391c8b3bb95a246c29f178e88c14e679, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 92aeebf8b004b4a00a5575dc81933840, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,22 +101,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growth:
-  - {fileID: -1338481250, guid: 391c8b3bb95a246c29f178e88c14e679, type: 3}
+  - {fileID: 21300000, guid: 92aeebf8b004b4a00a5575dc81933840, type: 3}
   - {fileID: 1810742441, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -986553986, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -2032322026, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -1544413759, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -1528080911, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -994103070, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
-  fruit: {fileID: 0}
+  fruit: {fileID: 7267311395999989417, guid: e9e6e371cc58b4af18566e2bf3a6abd6, type: 3}
   plot: {fileID: 0}
   pollenPrefab: {fileID: 6824984947961398136, guid: d5989d0d40d844b649f6d7afbd53e519, type: 3}
-  waterRequirements: 5
-  waterThreshold: 1
-  lightRequirements: 2
-  lightThreshold: 1
-  tempRequirements: 5
-  tempThreshold: 1
   stage: 0
   timeToGrow: 2
 --- !u!61 &-7245802369121470353
@@ -349,7 +343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8157441976759101417
 Transform:
   m_ObjectHideFlags: 0

@@ -41,9 +41,9 @@ public class Pod : MonoBehaviour
         Make(soilPrefab, 0, 5);
         Make(soilPrefab, 0, 6);
         GameObject s = Make(seedPrefab, 4, 2);
-        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1));
+        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1, 2, 5));
         s = Make(seedPrefab, 4, 1);
-        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1));
+        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1, 2, 5));
 
         Make(growLightPrefab, 1, 3);
         Make(growLightPrefab, 5, 2);
