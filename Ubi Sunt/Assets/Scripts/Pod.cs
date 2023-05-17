@@ -40,8 +40,10 @@ public class Pod : MonoBehaviour
         Make(soilPrefab, 0, 4);
         Make(soilPrefab, 0, 5);
         Make(soilPrefab, 0, 6);
-        Make(seedPrefab, 4, 2);
-        Make(seedPrefab, 4, 1);
+        GameObject s = Make(seedPrefab, 4, 2);
+        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1));
+        s = Make(seedPrefab, 4, 1);
+        s.GetComponent<Plant>().SetGenes(new GeneInfo("squash", 5, 1, 2, 1, 5, 1));
 
         Make(growLightPrefab, 1, 3);
         Make(growLightPrefab, 5, 2);
@@ -69,9 +71,10 @@ public class Pod : MonoBehaviour
         }
     }
 
-    void Make(GameObject thing, int x, int y) {
+    GameObject Make(GameObject thing, int x, int y) {
         GameObject t = Instantiate(thing, new Vector3(x, y, 0), Quaternion.identity);
         Set(x, y, t);
+        return t;
     }
 
 

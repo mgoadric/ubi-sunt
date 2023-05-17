@@ -15,17 +15,7 @@ public class Plant : MonoBehaviour
 
     public GameObject pollenPrefab;
 
-    public float waterRequirements;
-
-    public float waterThreshold;
-
-    public float lightRequirements;
-
-    public float lightThreshold;
-
-    public float tempRequirements;
-
-    public float tempThreshold;
+    public GeneInfo genes;
 
     public int stage;
 
@@ -46,7 +36,13 @@ public class Plant : MonoBehaviour
     {
     }
 
-    public void Pollinate() {
+    public void SetGenes(GeneInfo genes) {
+        this.genes = genes;
+    }
+
+    public void Pollinate(Pollen pollen) {
+        // make fruit
+        // using genes from pollen and me
         pollinated = true;
     }
 
@@ -69,7 +65,7 @@ public class Plant : MonoBehaviour
         while (stage < growth.Length - 1) {
             print("stage " + stage);
             yield return new WaitForSeconds(timeToGrow);
-            if (Comfortable(plot.WaterLevel(), 
+            if (genes.Comfortable(plot.WaterLevel(), 
             GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
             GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
             )) {
@@ -79,19 +75,10 @@ public class Plant : MonoBehaviour
         }
         GameObject pollen = Instantiate(pollenPrefab, transform.position, Quaternion.identity);
         pollen.GetComponent<Pollen>().origin = gameObject;
+        pollen.GetComponent<Pollen>().SetGenes(genes);
         pollen.transform.parent = transform;
     }
 
-    public bool Comfortable(float water, float light, float temp) {
-        print("w = " + water + ", l = " + light + ", t = " + temp);
-        if (Mathf.Abs(water - waterRequirements) < waterThreshold &&
-            Mathf.Abs(light - lightRequirements) < lightThreshold &&
-            Mathf.Abs(temp - tempRequirements) < tempThreshold) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public void SetPlot(Plot plot) {
         this.plot = plot;
@@ -100,23 +87,9 @@ public class Plant : MonoBehaviour
         print("started grow??");
     }
 
-    public string WaterText() {
-        if (waterRequirements < 2) {
-            return "ARID";
-        } else if (waterRequirements > 8) {
-            return "HUMID";
-        } else {
-            return "MED";
-        }
-    }
-
     public Color WaterColor() {
         if (plot != null) {
-            if (Mathf.Abs(plot.WaterLevel() - waterRequirements) < waterThreshold) {
-                return new Color(0, 1, 0);
-            } else {
-                return new Color(1, 0, 0);
-            }
+            return genes.WaterColor(plot.WaterLevel());
         } else {
             return new Color(1, 1, 0);
         }
@@ -124,11 +97,7 @@ public class Plant : MonoBehaviour
 
     public Color LightColor() {
         if (plot != null) {
-            if (Mathf.Abs(GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y) - lightRequirements) < lightThreshold) {
-                return new Color(0, 1, 0);
-            } else {
-                return new Color(1, 0, 0);
-            }
+            return genes.LightColor(GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y));
         } else {
             return new Color(1, 1, 0);
         }
@@ -136,32 +105,9 @@ public class Plant : MonoBehaviour
 
     public Color TempColor() {
         if (plot != null) {
-            if (Mathf.Abs(GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y) - tempRequirements) < tempThreshold) {
-                return new Color(0, 1, 0);
-            } else {
-                return new Color(1, 0, 0);
-            }
+            return genes.TempColor(GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y));
         } else {
             return new Color(1, 1, 0);
-        }
-    }
-
-    public string LightText() {
-        if (lightRequirements <= 5) {
-            return "LOW";
-        } else if (lightRequirements > 10) {
-            return "PART";
-        } else {
-            return "FULL";
-        }
-    }
-    public string TempText() {
-        if (tempRequirements < 10) {
-            return "COLD";
-        } else if (tempRequirements > 30) {
-            return "HOT";
-        } else {
-            return "MOD";
         }
     }
 }

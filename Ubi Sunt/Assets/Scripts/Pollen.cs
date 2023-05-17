@@ -11,6 +11,9 @@ public class Pollen : MonoBehaviour
 
     public float easing = 0.001f;
     // Start is called before the first frame update
+
+    public GeneInfo genes;
+
     void Start()
     {
         
@@ -31,9 +34,13 @@ public class Pollen : MonoBehaviour
         } else if (collider2D.gameObject.tag == "Plant") {
             if (origin != collider2D.gameObject) {
                 print("POLLINATION!!!!");
-                collider2D.gameObject.GetComponent<Plant>().Pollinate();
+                collider2D.gameObject.GetComponent<Plant>().Pollinate(this);
                 Destroy(gameObject);
             }
         }
+    }
+
+    public void SetGenes(GeneInfo genes) {
+        this.genes = genes;
     }
 }

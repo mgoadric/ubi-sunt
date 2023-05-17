@@ -42,11 +42,11 @@ public class InfoBox : MonoBehaviour
                     plantStatus.SetActive(true);
                     infoBox.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 250);
                     Plant p = here.GetComponent<Plant>();
-                    waterStatus.text = p.WaterText();
+                    waterStatus.text = p.genes.WaterText();
                     waterStatusColor.GetComponent<Image>().color = p.WaterColor();
-                    lightStatus.text = p.LightText();
+                    lightStatus.text = p.genes.LightText();
                     lightStatusColor.GetComponent<Image>().color = p.LightColor();
-                    tempStatus.text = p.TempText();
+                    tempStatus.text = p.genes.TempText();
                     tempStatusColor.GetComponent<Image>().color = p.TempColor();
                 } else {
                     plantStatus.SetActive(false);
