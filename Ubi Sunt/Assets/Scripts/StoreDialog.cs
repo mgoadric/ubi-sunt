@@ -7,6 +7,8 @@ public class StoreDialog : MonoBehaviour
 
     public GameObject mechanic;
 
+    public GameObject ubi;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +27,12 @@ public class StoreDialog : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         GameManager.Instance.DialogShow("Ubi? Where are you?");
+        yield return new WaitForSeconds(1);
 
-        yield return new WaitForSeconds(2);
+        while (ubi.transform.position.x < -3.5) {
+            ubi.transform.position += 0.02f * Vector3.right;
+            yield return new WaitForSeconds(0.01f);
+        }
         GameManager.Instance.DialogHide();
         mechanic.GetComponent<SpriteRenderer>().flipX = true;
 
@@ -34,12 +40,20 @@ public class StoreDialog : MonoBehaviour
             mechanic.transform.position += 0.01f * Vector3.left;
             yield return new WaitForSeconds(0.01f);
         }
-        GameManager.Instance.DialogShow("We need to get ready for docking.");
-        yield return new WaitForSeconds(2);
-        GameManager.Instance.DialogHide();
-        mechanic.GetComponent<SpriteRenderer>().flipX = false;
-
+        GameManager.Instance.DialogShow("There you are!");
         yield return new WaitForSeconds(1);
+        GameManager.Instance.DialogShow("Ok, we need to get ready for docking.");
+        yield return new WaitForSeconds(1);
+        GameManager.Instance.DialogShow("Can you go get a spare flange from the cargo pod?");
+        yield return new WaitForSeconds(2);
+
+        GameManager.Instance.DialogHide();
+        //mechanic.GetComponent<SpriteRenderer>().flipX = false;
+        while (ubi.transform.position.x > -10.5) {
+            ubi.transform.position -= 0.03f * Vector3.right;
+            yield return new WaitForSeconds(0.01f);
+        }
+        //yield return new WaitForSeconds(1);
         GameManager.Instance.ChangeScene("PodContainer");
 
     }
