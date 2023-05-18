@@ -109,10 +109,15 @@ MonoBehaviour:
   - {fileID: -1528080911, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -994103070, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   fruit: {fileID: 7267311395999989417, guid: e9e6e371cc58b4af18566e2bf3a6abd6, type: 3}
+  fruits: []
+  fruitMade: 0
   plot: {fileID: 0}
   pollenPrefab: {fileID: 6824984947961398136, guid: d5989d0d40d844b649f6d7afbd53e519, type: 3}
   stage: 0
-  timeToGrow: 2
+  monitor: {fileID: 5435295669549780483}
+  waterMonitor: {fileID: 3727526175833172367}
+  lightMonitor: {fileID: 7612219178322083351}
+  tempMonitor: {fileID: 3378967419952899843}
 --- !u!61 &-7245802369121470353
 BoxCollider2D:
   m_ObjectHideFlags: 0

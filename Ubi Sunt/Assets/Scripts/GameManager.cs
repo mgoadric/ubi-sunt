@@ -157,6 +157,8 @@ public class GameManager : MonoBehaviour
         mainMenu.SetActive(false);
         if (scene == "PodContainer") {
             LoadPod();
+        } else {
+            infoBox.SetActive(false);
         }
         StartCoroutine(ColorLerpFunction(false, 1));
     }

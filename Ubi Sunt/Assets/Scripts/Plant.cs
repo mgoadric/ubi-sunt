@@ -25,6 +25,15 @@ public class Plant : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    public GameObject monitor;
+
+    public GameObject waterMonitor;
+
+    public GameObject lightMonitor;
+    
+    public GameObject tempMonitor;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +46,14 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (plot != null && GameManager.Instance.infoBox.activeInHierarchy) {
+            monitor.SetActive(true);
+            waterMonitor.GetComponent<SpriteRenderer>().color = genes.WaterColor(plot.WaterLevel());
+            lightMonitor.GetComponent<SpriteRenderer>().color = genes.LightColor(GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y));
+            tempMonitor.GetComponent<SpriteRenderer>().color = genes.TempColor(GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y));
+        } else {
+            monitor.SetActive(false);
+        }
     }
 
     public void SetGenes(Genetics genes) {
@@ -45,6 +62,10 @@ public class Plant : MonoBehaviour
 
     public bool IsPollinated() {
         return pollenGenes != null;
+    }
+
+    public bool IsFullGrown() {
+        return stage == growth.Length - 1;
     }
 
     public void Pollinate(Pollen pollen) {
@@ -117,7 +138,6 @@ public class Plant : MonoBehaviour
         this.plot = plot;
         GetComponent<Rigidbody2D>().simulated = true;
         StartCoroutine("Grow");
-        transform.GetChild(0).gameObject.SetActive(true);
         print("started grow??");
     }
 

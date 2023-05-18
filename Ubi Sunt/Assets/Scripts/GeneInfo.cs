@@ -21,6 +21,10 @@ public class Genetics {
 
     public int numFruit;
 
+    private Color good = new Color(0, 1, 0);
+    private Color ok = new Color(1, 1, 0);
+    private Color bad = new Color(1, 0, 0);
+
 
     public Genetics(string name, float waterRequirements, float waterThreshold,
                           float lightRequirements, float lightThreshold,
@@ -77,26 +81,35 @@ public class Genetics {
     }
 
     public Color WaterColor(float water) {
-        if (Mathf.Abs(water - waterR) < waterT) {
-            return new Color(0, 1, 0);
+        float percent = Mathf.Min(10, Mathf.Abs(water - waterR)) / 10;
+        float line = waterT / 10;
+
+        if (percent <= line) {
+            return Color.Lerp(good, ok, percent * (1 / line));
         } else {
-            return new Color(1, 0, 0);
-        }  
+            return Color.Lerp(ok, bad, (percent - 0.5f) * (1 / line));
+        }
     }
 
     public Color LightColor(float light) {
-        if (Mathf.Abs(light - lightR) < lightT) {
-            return new Color(0, 1, 0);
+        float percent = Mathf.Min(10, Mathf.Abs(light - lightR)) / 10;
+        float line = waterT / 10;
+
+        if (percent <= line) {
+            return Color.Lerp(good, ok, percent * (1 / line));
         } else {
-            return new Color(1, 0, 0);
+            return Color.Lerp(ok, bad, (percent - 0.5f) * (1 / line));
         }
     }
 
     public Color TempColor(float temp) {
-        if (Mathf.Abs(temp - tempR) < tempT) {
-            return new Color(0, 1, 0);
+        float percent = Mathf.Min(10, Mathf.Abs(temp - tempR)) / 10;
+        float line = waterT / 10;
+
+        if (percent <= line) {
+            return Color.Lerp(good, ok, percent * (1 / line));
         } else {
-            return new Color(1, 0, 0);
+            return Color.Lerp(ok, bad, (percent - 0.5f) * (1 / line));
         }
     }
 

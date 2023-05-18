@@ -33,7 +33,7 @@ public class Pollen : MonoBehaviour
             transform.parent = null;
         } else if (collider2D.gameObject.tag == "Plant") {
             Plant p = collider2D.gameObject.GetComponent<Plant>();
-            if (origin != collider2D.gameObject && !p.IsPollinated()) {
+            if (origin != collider2D.gameObject && p.IsFullGrown() && !p.IsPollinated()) {
                 print("POLLINATION!!!!");
                 p.Pollinate(this);
                 Destroy(gameObject);

@@ -43,9 +43,9 @@ public class StoreDialog : MonoBehaviour
         GameManager.Instance.DialogShow("There you are!");
         yield return new WaitForSeconds(1);
         GameManager.Instance.DialogShow("Ok, we need to get ready for docking.");
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.DialogShow("Can you go get a spare flange from the cargo pod?");
         yield return new WaitForSeconds(2);
+        GameManager.Instance.DialogShow("Can you go get a spare flange from the cargo pod?");
+        yield return new WaitForSeconds(3);
 
         GameManager.Instance.DialogHide();
         //mechanic.GetComponent<SpriteRenderer>().flipX = false;
