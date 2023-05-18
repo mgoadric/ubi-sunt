@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: -1544413759, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -1528080911, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
   - {fileID: -994103070, guid: 0e0b1731aeae04c89995646441d1a5e8, type: 3}
-  fruit: {fileID: 7267311395999989417, guid: e9e6e371cc58b4af18566e2bf3a6abd6, type: 3}
+  fruitPrefab: {fileID: 7267311395999989417, guid: e9e6e371cc58b4af18566e2bf3a6abd6, type: 3}
   fruits: []
   fruitMade: 0
   plot: {fileID: 0}
@@ -348,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8157441976759101417
 Transform:
   m_ObjectHideFlags: 0

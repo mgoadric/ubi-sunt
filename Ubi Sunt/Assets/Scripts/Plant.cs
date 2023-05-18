@@ -7,7 +7,7 @@ public class Plant : MonoBehaviour
 
     public Sprite[] growth;
     
-    public GameObject fruit;
+    public GameObject fruitPrefab;
 
     public List<GameObject> fruits;
 
@@ -123,7 +123,7 @@ public class Plant : MonoBehaviour
             GameManager.Instance.pod.AmbientLight((int)transform.position.x, (int)transform.position.y),
             GameManager.Instance.pod.AmbientTemp((int)transform.position.x, (int)transform.position.y)
             )) {
-                GameObject f = Instantiate(fruit, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
+                GameObject f = Instantiate(fruitPrefab, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
                 fruits.Add(f);
                 // using genes from pollen and me
 

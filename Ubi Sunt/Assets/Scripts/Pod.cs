@@ -12,21 +12,15 @@ public class Pod : MonoBehaviour
     public float[,] temperature;
     public float[,] lighting;
 
-    public List<GameObject> bots;
-
     public GameObject soilPrefab;
-
     public GameObject seedPrefab;
-
     public GameObject growLightPrefab;
-
     public GameObject heaterPrefab;
-
     public GameObject acunitPrefab;
-
     public GameObject waterPrefab;
-
     public GameObject spigotPrefab;
+
+    public List<GameObject> bots;
 
     public GameObject botPrefab;
 
@@ -47,13 +41,13 @@ public class Pod : MonoBehaviour
         s = Make(seedPrefab, 4, 0);
         s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 5));
 
-        Make(growLightPrefab, 1, 3);
-        Make(growLightPrefab, 5, 2);
+        //Make(growLightPrefab, 1, 3);
+        //Make(growLightPrefab, 5, 2);
         Make(growLightPrefab, 3, 3);        
         //Make(waterPrefab, 3, 4);
         Make(heaterPrefab, 5, 5);
         Make(spigotPrefab, 0, 1);
-        Make(acunitPrefab, 5, 6);
+        //Make(acunitPrefab, 5, 6);
 
         GameObject bot = Instantiate(botPrefab);
         AddBot(bot);
@@ -84,16 +78,15 @@ public class Pod : MonoBehaviour
         if (x >= 0 && x < GetWidth()) {
             int cy = RealMod(y, GetCircumference());
             if (storage[x, cy] == null) {
-                if (go.tag == "Heater") {
-                    ChangeAmbient(x, cy, 1, 1, temperature);
-                }
-                if (go.tag == "ACUnit") {
-                    ChangeAmbient(x, cy, 1, -1, temperature);
-                }
-                if (go.tag == "GrowLight") {
-                    ChangeAmbient(x, cy, 1, 1, lighting);
+                if (go.tag == "Heater" || go.tag == "ACUnit") {
+                    EnvironmentChanger env = go.GetComponent<EnvironmentChanger>();
+                    ChangeAmbient(x, cy, env.strength, env.direction, temperature);
                 }  
-                if (go.tag == "Soil") {
+                else if (go.tag == "GrowLight") {
+                    EnvironmentChanger env = go.GetComponent<EnvironmentChanger>();
+                    ChangeAmbient(x, cy, env.strength, env.direction, lighting);
+                }  
+                else if (go.tag == "Soil") {
                     GameObject p = go.GetComponent<Plot>().plant;
                     if (p != null) {
                         Plant plant = p.GetComponent<Plant>();
@@ -178,15 +171,14 @@ public class Pod : MonoBehaviour
                         p.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
                     }
                 }
-                else if (go.tag == "Heater") {
-                    ChangeAmbient(x, cy, 1, -1, temperature);
-                }
+                else if (go.tag == "Heater" || go.tag == "ACUnit") {
+                    EnvironmentChanger env = go.GetComponent<EnvironmentChanger>();
+                    ChangeAmbient(x, cy, env.strength, -env.direction, temperature);
+                }  
                 else if (go.tag == "GrowLight") {
-                    ChangeAmbient(x, cy, 1, -1, lighting);
-                }   
-                else if (go.tag == "ACUnit") {
-                    ChangeAmbient(x, cy, 1, 1, temperature);
-                } 
+                    EnvironmentChanger env = go.GetComponent<EnvironmentChanger>();
+                    ChangeAmbient(x, cy, env.strength, -env.direction, lighting);
+                }  
                 else if (go.tag == "Spigot") {
                     GameObject w = Instantiate(waterPrefab, 
                     go.transform.position, Quaternion.identity);
@@ -213,10 +205,11 @@ public class Pod : MonoBehaviour
     }
 
     public void ChangeAmbient(int x, int y, int strength, int dir, float[, ] ambient) {
-        for (int hx = -strength; hx < strength + 1; hx++) {
-            for (int hy = -strength; hy < strength + 1; hy++) {
+        for (int hx = -strength / 2; hx < strength / 2 + 1; hx++) {
+            for (int hy = -strength / 2; hy < strength / 2 + 1; hy++) {
                 if (x + hx >= 0 && x + hx < GetWidth()) {
-                    float change = Mathf.Round(10 * (dir * Mathf.Max(0, (strength + 0.5f) - (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude)));
+                    //float change = Mathf.Round(10 * (dir * Mathf.Max(0, (strength + 0.5f) - (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude)));
+                    float change = dir * Mathf.Max(0, (strength - Mathf.Round(2 * (0.1f + (new Vector2(x, y) - new Vector2(x + hx, y + hy)).magnitude))));
                     ambient[hx + x, RealMod(hy + y, GetCircumference())] += change;
                 }
             }
@@ -225,11 +218,19 @@ public class Pod : MonoBehaviour
 
     public float AmbientTemp(int x, int y) {
         int cy = RealMod(y, GetCircumference());
-        return temperature[x, cy];
+        if (x >= 0 && x < GetWidth()) {
+            return temperature[x, cy];
+        } else {
+            return 0;
+        }
     }
 
     public float AmbientLight(int x, int y) {
         int cy = RealMod(y, GetCircumference());
-        return lighting[x, cy];
+        if (x >= 0 && x < GetWidth()) {
+            return lighting[x, cy];
+        } else {
+            return 0;
+        }
     }
 }

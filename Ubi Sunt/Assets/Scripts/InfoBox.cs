@@ -37,23 +37,30 @@ public class InfoBox : MonoBehaviour
             (int)Mathf.Round(GameManager.Instance.ubi.transform.position.x),
             (int)Mathf.Round(GameManager.Instance.ubi.transform.position.y));
             if (here != null) {
-                item.text = here.tag;
+                item.text = here.tag + ":" + GameManager.Instance.pod.AmbientLight(
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.x),
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.y)) 
+            + ":" + GameManager.Instance.pod.AmbientTemp(
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.x),
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.y));
                 if (here.tag == "Plant" || here.tag == "Seed") {
                     plantStatus.SetActive(true);
                     infoBox.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 250);
                     Plant p = here.GetComponent<Plant>();
                     waterStatus.text = p.genes.WaterText();
-                    waterStatusColor.GetComponent<Image>().color = p.WaterColor();
                     lightStatus.text = p.genes.LightText();
-                    lightStatusColor.GetComponent<Image>().color = p.LightColor();
                     tempStatus.text = p.genes.TempText();
-                    tempStatusColor.GetComponent<Image>().color = p.TempColor();
                 } else {
                     plantStatus.SetActive(false);
                     infoBox.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100);
                 }
             } else {
-                item.text = "Scanning ...";
+                item.text = "..."+ ":" + GameManager.Instance.pod.AmbientLight(
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.x),
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.y)) 
+            + ":" + GameManager.Instance.pod.AmbientTemp(
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.x),
+            (int)Mathf.Round(GameManager.Instance.ubi.transform.position.y));
                 plantStatus.SetActive(false);
                 infoBox.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 100);
             }

@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 7233118334256466394}
   - component: {fileID: 7233118334256466395}
   - component: {fileID: 7233118334256466396}
+  - component: {fileID: 8440586176524008114}
   m_Layer: 0
   m_Name: AC Unit
   m_TagString: ACUnit
@@ -217,3 +218,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8440586176524008114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233118334256466397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8afd71d6df3344ba99a093a744380e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 7
+  direction: -1
