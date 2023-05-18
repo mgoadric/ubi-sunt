@@ -70,6 +70,7 @@ public class Plant : MonoBehaviour
 
     public void Pollinate(Pollen pollen) {
         pollenGenes = pollen.genes;
+        GetComponent<Rigidbody2D>().simulated = false;
         StartCoroutine("MakeFruit");
     }
 
@@ -111,6 +112,7 @@ public class Plant : MonoBehaviour
         pollen.GetComponent<Pollen>().origin = gameObject;
         pollen.GetComponent<Pollen>().SetGenes(genes);
         pollen.transform.parent = transform;
+        GetComponent<Rigidbody2D>().simulated = true;
     }
 
     IEnumerator MakeFruit() {
@@ -136,7 +138,6 @@ public class Plant : MonoBehaviour
 
     public void SetPlot(Plot plot) {
         this.plot = plot;
-        GetComponent<Rigidbody2D>().simulated = true;
         StartCoroutine("Grow");
         print("started grow??");
     }

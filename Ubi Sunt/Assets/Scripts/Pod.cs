@@ -92,31 +92,39 @@ public class Pod : MonoBehaviour
                 }
                 if (go.tag == "GrowLight") {
                     ChangeAmbient(x, cy, 1, 1, lighting);
-                }            
+                }  
+                if (go.tag == "Soil") {
+                    GameObject p = go.GetComponent<Plot>().plant;
+                    if (p != null) {
+                        Plant plant = p.GetComponent<Plant>();
+                        if (plant.IsFullGrown() && !plant.IsPollinated()) {
+                            p.GetComponent<Rigidbody2D>().simulated = true;
+                        }
+                        plant.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                    }   
+                }     
                 storage[x, cy] = go;
                 go.transform.parent = null;
                 go.transform.localScale = Vector3.one;
                 go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
                 return true;
-            } else {
-            
-                if (storage[x, cy].tag == "Soil") {
-                    if (go.tag == "Seed") {
-                        Debug.Log("Planted a seed!");
-                        if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
-                            go.transform.localScale = Vector3.one;
-                            go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
-                            go.tag = "Plant";
-                        return true;
-                        }
-                    } else if (go.tag == "Water") {
-                        storage[x, cy].GetComponent<Plot>().Water();
-                        Destroy(go);
-                        return true;
+            } else if (storage[x, cy].tag == "Soil") {
+                if (go.tag == "Seed") {
+                    Debug.Log("Planted a seed!");
+                    if (storage[x, cy].GetComponent<Plot>().Plant(go)) {
+                        go.transform.localScale = Vector3.one;
+                        go.GetComponent<SpriteRenderer>().sortingLayerName = "ShipContainers";
+                        go.tag = "Plant";
+                    return true;
                     }
+                } else if (go.tag == "Water") {
+                    storage[x, cy].GetComponent<Plot>().Water();
+                    Destroy(go);
+                    return true;
                 }
             }
         }
+        
         return false;
     }
 
@@ -127,10 +135,10 @@ public class Pod : MonoBehaviour
                 GameObject go = storage[x, cy];
 
                 if (go.tag == "Soil") {
-                    GameObject p = go.GetComponent<Plot>().Crop();
-                    if (p != null) {
-                        Debug.Log("Returning plant or fruit!");
-                        return p;
+                    GameObject c = go.GetComponent<Plot>().Crop();
+                    if (c != null) {
+                        Debug.Log("Returning fruit!");
+                        return c;
                     }
                 }
                 return go;
@@ -158,10 +166,16 @@ public class Pod : MonoBehaviour
                 GameObject go = storage[x, cy];
 
                 if (go.tag == "Soil") {
-                    GameObject p = go.GetComponent<Plot>().Harvest();
+                    GameObject f = go.GetComponent<Plot>().Harvest();
+                    if (f != null) {
+                        Debug.Log("Returning fruit!");
+                        return f;
+                    }
+                    GameObject p = go.GetComponent<Plot>().plant;
                     if (p != null) {
-                        Debug.Log("Returning plant!");
-                        return p;
+                        print("WE HAVE a plant to move!");
+                        p.GetComponent<Rigidbody2D>().simulated = false;
+                        p.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
                     }
                 }
                 else if (go.tag == "Heater") {

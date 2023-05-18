@@ -6,24 +6,21 @@ public class Genetics {
     public string name;
 
     public float waterR;
-
     public float waterT;
 
     public float lightR;
-
     public float lightT;
 
     public float tempR;
-
     public float tempT;
 
     public int timeToGrow;
 
     public int numFruit;
 
-    private Color good = new Color(0, 1, 0);
-    private Color ok = new Color(1, 1, 0);
-    private Color bad = new Color(1, 0, 0);
+    private Color good = new Color(0, 1, 0, 0.8f);
+    private Color ok = new Color(1, 1, 0, 0.8f);
+    private Color bad = new Color(1, 0, 0, 0.8f);
 
 
     public Genetics(string name, float waterRequirements, float waterThreshold,
@@ -47,14 +44,14 @@ public class Genetics {
         } else if (waterR > 8) {
             return "HUMID";
         } else {
-            return "MED";
+            return "TEMPERATE";
         }
     }
     public string LightText() {
         if (lightR <= 5) {
             return "LOW";
         } else if (lightR > 10) {
-            return "PART";
+            return "PARTIAL";
         } else {
             return "FULL";
         }

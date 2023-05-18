@@ -15,6 +15,7 @@ TagManager:
   - Spigot
   - Pollen
   - Plant
+  - Fruit
   layers:
   - Default
   - TransparentFX
