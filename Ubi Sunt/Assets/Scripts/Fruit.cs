@@ -45,11 +45,16 @@ public class Fruit : MonoBehaviour
         }
 
         // Leave seeds behind
-        GameManager.Instance.pod.Remove((int)transform.position.x, (int)transform.position.y);
-        GameObject s = GameManager.Instance.pod.Make(seedPrefab, (int)transform.position.x, (int)transform.position.y);
+        GameObject s;
+        if (transform.parent == null) {
+            GameManager.Instance.pod.Remove((int)transform.position.x, (int)transform.position.y);
+            s = GameManager.Instance.pod.Make(seedPrefab, (int)transform.position.x, (int)transform.position.y);
+        } else {
+            s = Instantiate(seedPrefab, transform.position, Quaternion.identity, transform.parent);
+            transform.parent.gameObject.GetComponent<UbiWorking>().Replace(gameObject, s);
+            s.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+        }
         s.GetComponent<Plant>().SetGenes(genes);
         Destroy(gameObject);
-
-        // TODO What if the fruit is being carried when it spoils?
     }
 }

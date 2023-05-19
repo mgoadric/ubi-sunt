@@ -25,7 +25,7 @@ public class UbiWorking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-              
+
     }
 
     public void Drop() {
@@ -52,5 +52,21 @@ public class UbiWorking : MonoBehaviour
                 go.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
             }
         }
+    }
+
+    public bool Replace(GameObject oldItem, GameObject newItem) {
+        if (storage.Contains(oldItem)) {
+            Stack<GameObject> flipped = new Stack<GameObject>();
+            while (storage.Peek() != oldItem) {
+                flipped.Push(storage.Pop());
+            }
+            storage.Pop();
+            storage.Push(newItem);
+            while (flipped.Count > 0) {
+                storage.Push(flipped.Pop());
+            }
+            return true;
+        }
+        return false;
     }
 }
