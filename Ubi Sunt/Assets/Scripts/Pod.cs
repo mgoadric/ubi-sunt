@@ -35,19 +35,19 @@ public class Pod : MonoBehaviour
         Make(soilPrefab, 0, 5);
         Make(soilPrefab, 0, 6);
         GameObject s = Make(seedPrefab, 4, 2);
-        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 5));
+        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 2));
         s = Make(seedPrefab, 4, 1);
-        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 5));
+        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 2));
         s = Make(seedPrefab, 4, 0);
-        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 5));
+        s.GetComponent<Plant>().SetGenes(new Genetics("squash", 5, 1, 2, 1, 5, 1, 2, 2));
 
-        //Make(growLightPrefab, 1, 3);
-        //Make(growLightPrefab, 5, 2);
+        Make(growLightPrefab, 1, 3);
+        Make(growLightPrefab, 5, 2);
         Make(growLightPrefab, 3, 3);        
         //Make(waterPrefab, 3, 4);
         Make(heaterPrefab, 5, 5);
         Make(spigotPrefab, 0, 1);
-        //Make(acunitPrefab, 5, 6);
+        Make(acunitPrefab, 5, 6);
 
         GameObject bot = Instantiate(botPrefab);
         AddBot(bot);
@@ -67,7 +67,7 @@ public class Pod : MonoBehaviour
         }
     }
 
-    GameObject Make(GameObject thing, int x, int y) {
+    public GameObject Make(GameObject thing, int x, int y) {
         GameObject t = Instantiate(thing, new Vector3(x, y, 0), Quaternion.identity);
         Set(x, y, t);
         return t;

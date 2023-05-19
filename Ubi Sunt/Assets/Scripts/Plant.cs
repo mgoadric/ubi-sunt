@@ -6,31 +6,24 @@ public class Plant : MonoBehaviour
 {
 
     public Sprite[] growth;
-    
+    public int stage;
+
     public GameObject fruitPrefab;
-
     public List<GameObject> fruits;
-
     public int fruitMade;
 
     public Plot plot;
 
     public Genetics pollenGenes;
-
     public GameObject pollenPrefab;
 
     public Genetics genes;
 
-    public int stage;
-
     private SpriteRenderer spriteRenderer;
 
     public GameObject monitor;
-
     public GameObject waterMonitor;
-
     public GameObject lightMonitor;
-    
     public GameObject tempMonitor;
 
 
@@ -90,9 +83,19 @@ public class Plant : MonoBehaviour
         if (Harvestable()) {
             GameObject f = fruits[0];
             fruits.RemoveAt(0);
+            f.GetComponent<Fruit>().Pick();
+            if (fruitMade == genes.numFruit && fruits.Count == 0) {
+                StartCoroutine("Decay");
+            }
             return f;
         }
         return null;
+    }
+
+    IEnumerator Decay() {
+        yield return new WaitForSeconds(genes.timeToGrow);
+        plot.plant = null;
+        Destroy(gameObject);
     }
 
     IEnumerator Grow() {
