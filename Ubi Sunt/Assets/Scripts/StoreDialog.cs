@@ -22,30 +22,14 @@ public class StoreDialog : MonoBehaviour
     }
 
     IEnumerator IntroScene() {
-        while (mechanic.transform.position.x < 1) {
-            mechanic.transform.position += 0.02f * Vector3.right;
+        while (mechanic.transform.position.x > 0) {
+            mechanic.transform.position -= 0.02f * Vector3.right;
             yield return new WaitForSeconds(0.01f);
         }
-        GameManager.Instance.DialogShow("Ubi? Where are you?");
-        yield return new WaitForSeconds(1);
-
-        while (ubi.transform.position.x < -3.5) {
-            ubi.transform.position += 0.03f * Vector3.right;
-            yield return new WaitForSeconds(0.01f);
-        }
-        GameManager.Instance.DialogHide();
-        mechanic.GetComponent<SpriteRenderer>().flipX = true;
-
-        while (mechanic.transform.position.x > -1) {
-            mechanic.transform.position += 0.02f * Vector3.left;
-            yield return new WaitForSeconds(0.01f);
-        }
-        GameManager.Instance.DialogShow("There you are!");
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.DialogShow("Ok, we need to get ready for docking.");
+        GameManager.Instance.DialogShow("Hello again, Ubi! It is good to see you after all this time.");
         yield return new WaitForSeconds(2);
-        GameManager.Instance.DialogShow("Can you go get a spare flange from the cargo pod?");
-        yield return new WaitForSeconds(3);
+        GameManager.Instance.DialogShow("Do you have any spare AC Units to trade? We need to replace a few that have gone bad.");
+        yield return new WaitForSeconds(2);
 
         GameManager.Instance.DialogHide();
         //mechanic.GetComponent<SpriteRenderer>().flipX = false;
