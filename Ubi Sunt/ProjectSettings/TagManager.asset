@@ -25,8 +25,8 @@ TagManager:
   - UI
   - Robot
   - Pollen
-  - 
-  - 
+  - NoPause
+  - HighRes
   - 
   - 
   - 
@@ -61,4 +61,10 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Gui
+    uniqueID: 3130941793
+    locked: 0
+  - name: GameText
+    uniqueID: 1935310555
     locked: 0
