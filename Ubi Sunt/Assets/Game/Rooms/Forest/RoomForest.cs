@@ -229,4 +229,16 @@ public class RoomForest : RoomScript<RoomForest>
 		
 		yield return E.Break;
 	}
+
+	IEnumerator OnEnterRegionScale( IRegion region, ICharacter character )
+	{
+
+		yield return E.Break;
+	}
+
+	IEnumerator OnExitRegionScale( IRegion region, ICharacter character )
+	{
+
+		yield return E.Break;
+	}
 }

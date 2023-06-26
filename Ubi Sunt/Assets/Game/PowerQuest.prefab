@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -80,8 +81,7 @@ MonoBehaviour:
   m_customKbShortcuts: 0
   m_transitionFadeTime: 0.3
   m_menuManager:
-    m_prefabEffectMenuFadeOut: {fileID: 212000010572677458, guid: 8586ef0cf80cdcb429678b9dd0b8180f,
-      type: 3}
+    m_prefabEffectMenuFadeOut: {fileID: 212000010572677458, guid: 8586ef0cf80cdcb429678b9dd0b8180f, type: 3}
     m_fadeColour: {r: 0, g: 0, b: 0, a: 1}
     m_customFade: 0
   m_spawnablePrefabs:
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_roomPrefabs:
   - {fileID: 114788632828080210, guid: 908a928d57ccea1418803714fc2b24b8, type: 3}
   - {fileID: 114107578643181592, guid: 815776d2d5a9623498c61578ffc4c1cc, type: 3}
+  - {fileID: 4618553186639071569, guid: 6866a9d0ea85e43a5b66cd51934186af, type: 3}
   m_characterPrefabs:
   - {fileID: 114953134120639602, guid: b4910caf4195aeb45895069ad277b9fd, type: 3}
   - {fileID: 114894982771319608, guid: 65de018bf92bf6a4088d8c3f977119e7, type: 3}
@@ -164,4 +165,4 @@ MonoBehaviour:
   - {fileID: 4800000, guid: 1919ad8d478bdbe4f89132831c3639b9, type: 3}
   - {fileID: 4800000, guid: 7b2d59994bd379e42a8357ea032034ab, type: 3}
   m_version: 16009
-  m_newVersion: 15013
+  m_newVersion: 16011
